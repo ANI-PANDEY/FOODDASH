@@ -637,14 +637,14 @@ export default function FoodDash() {
                 <MapPin className="w-8 h-8 text-white" />
               </div>
               <h4 className="text-xl font-semibold mb-2">Address</h4>
-              <p className="text-gray-600">123 Food Street, Delivery City, DC 12345</p>
+              <p className="text-gray-600">Food Street,  City, delhi 6 </p>
             </Card>
             <Card className="text-center p-6 hover:shadow-lg transition-shadow duration-300">
               <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Phone className="w-8 h-8 text-white" />
               </div>
               <h4 className="text-xl font-semibold mb-2">Phone</h4>
-              <p className="text-gray-600">+1 (555) 123-4567</p>
+              <p className="text-gray-600">+91 8877002297</p>
             </Card>
             <Card className="text-center p-6 hover:shadow-lg transition-shadow duration-300">
               <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
