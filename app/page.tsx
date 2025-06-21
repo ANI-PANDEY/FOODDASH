@@ -50,6 +50,8 @@ export default function FoodDash() {
   const [orders, setOrders] = useState<any[]>([])
   const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false)
   const [currentOrder, setCurrentOrder] = useState<any>(null)
+  const [activeStoreFilter, setActiveStoreFilter] = useState("all")
+  const [isStoresOpen, setIsStoresOpen] = useState(false)
 
   useEffect(() => {
     // Simulate loading
@@ -371,6 +373,177 @@ export default function FoodDash() {
     },
   ]
 
+  const partnerStores = [
+    {
+      id: 1,
+      name: "Spice Garden",
+      cuisine: "Indian",
+      rating: 4.8,
+      deliveryTime: "25-30 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Butter Chicken", "Biryani", "Dal Tadka"],
+      offers: "20% OFF on orders above ₹300",
+      isVeg: false,
+      location: "Connaught Place",
+      established: "2018",
+      totalOrders: "10k+",
+    },
+    {
+      id: 2,
+      name: "Pizza Palace",
+      cuisine: "Italian",
+      rating: 4.7,
+      deliveryTime: "20-25 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Margherita Pizza", "Pepperoni Pizza", "Garlic Bread"],
+      offers: "Buy 1 Get 1 Free on Large Pizzas",
+      isVeg: false,
+      location: "Khan Market",
+      established: "2020",
+      totalOrders: "8k+",
+    },
+    {
+      id: 3,
+      name: "Dragon Wok",
+      cuisine: "Chinese",
+      rating: 4.6,
+      deliveryTime: "15-20 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Hakka Noodles", "Fried Rice", "Manchurian"],
+      offers: "Free delivery on orders above ₹200",
+      isVeg: false,
+      location: "Lajpat Nagar",
+      established: "2019",
+      totalOrders: "12k+",
+    },
+    {
+      id: 4,
+      name: "Burger Junction",
+      cuisine: "American",
+      rating: 4.5,
+      deliveryTime: "15-20 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Chicken Burger", "Cheese Burger", "Fries"],
+      offers: "₹50 OFF on first order",
+      isVeg: false,
+      location: "CP Metro Station",
+      established: "2021",
+      totalOrders: "6k+",
+    },
+    {
+      id: 5,
+      name: "South Delights",
+      cuisine: "South Indian",
+      rating: 4.9,
+      deliveryTime: "20-25 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Masala Dosa", "Idli Sambar", "Uttapam"],
+      offers: "Combo meals starting at ₹99",
+      isVeg: true,
+      location: "Karol Bagh",
+      established: "2017",
+      totalOrders: "15k+",
+    },
+    {
+      id: 6,
+      name: "Pasta Corner",
+      cuisine: "Italian",
+      rating: 4.4,
+      deliveryTime: "25-30 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Pasta Alfredo", "Pasta Arrabbiata", "Garlic Bread"],
+      offers: "Free dessert with pasta combos",
+      isVeg: true,
+      location: "Rajouri Garden",
+      established: "2020",
+      totalOrders: "7k+",
+    },
+    {
+      id: 7,
+      name: "Sweet Treats",
+      cuisine: "Desserts",
+      rating: 4.8,
+      deliveryTime: "10-15 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Gulab Jamun", "Chocolate Brownie", "Ice Cream"],
+      offers: "Buy 2 Get 1 Free on desserts",
+      isVeg: true,
+      location: "India Gate",
+      established: "2019",
+      totalOrders: "9k+",
+    },
+    {
+      id: 8,
+      name: "Chai Adda",
+      cuisine: "Beverages",
+      rating: 4.7,
+      deliveryTime: "10-15 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Masala Chai", "Cold Coffee", "Lassi"],
+      offers: "Free snacks with beverages",
+      isVeg: true,
+      location: "Chandni Chowk",
+      established: "2018",
+      totalOrders: "11k+",
+    },
+    {
+      id: 9,
+      name: "Street Food Hub",
+      cuisine: "Street Food",
+      rating: 4.6,
+      deliveryTime: "15-20 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Pani Puri", "Bhel Puri", "Vada Pav"],
+      offers: "Chaat combo at ₹149",
+      isVeg: true,
+      location: "Janpath",
+      established: "2020",
+      totalOrders: "8k+",
+    },
+    {
+      id: 10,
+      name: "Healthy Bites",
+      cuisine: "Healthy",
+      rating: 4.5,
+      deliveryTime: "20-25 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Quinoa Bowl", "Green Salad", "Smoothies"],
+      offers: "10% OFF on healthy meals",
+      isVeg: true,
+      location: "Green Park",
+      established: "2021",
+      totalOrders: "5k+",
+    },
+    {
+      id: 11,
+      name: "Biryani House",
+      cuisine: "Mughlai",
+      rating: 4.9,
+      deliveryTime: "30-35 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Chicken Biryani", "Mutton Biryani", "Raita"],
+      offers: "Family pack at ₹599",
+      isVeg: false,
+      location: "Old Delhi",
+      established: "2016",
+      totalOrders: "20k+",
+    },
+    {
+      id: 12,
+      name: "Taco Bell Express",
+      cuisine: "Mexican",
+      rating: 4.3,
+      deliveryTime: "20-25 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Tacos", "Burritos", "Nachos"],
+      offers: "Mexican fiesta combo ₹299",
+      isVeg: false,
+      location: "Gurgaon",
+      established: "2019",
+      totalOrders: "7k+",
+    },
+  ]
+
   const categories = [
     { id: "all", name: "All", emoji: "🍽️" },
     { id: "indian", name: "Indian", emoji: "🍛" },
@@ -386,6 +559,26 @@ export default function FoodDash() {
 
   const filteredItems =
     activeCategory === "all" ? foodItems : foodItems.filter((item) => item.category === activeCategory)
+
+  const storeCategories = [
+    "all",
+    "indian",
+    "italian",
+    "chinese",
+    "american",
+    "south indian",
+    "desserts",
+    "beverages",
+    "street food",
+    "healthy",
+    "mughlai",
+    "mexican",
+  ]
+
+  const filteredStores =
+    activeStoreFilter === "all"
+      ? partnerStores
+      : partnerStores.filter((store) => store.cuisine.toLowerCase().includes(activeStoreFilter.toLowerCase()))
 
   const addToCart = (item: FoodItem) => {
     setCart((prevCart) => {
@@ -580,11 +773,19 @@ export default function FoodDash() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              {["Home", "Menu", "About", "Contact"].map((item) => (
+              {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
                 <a
                   key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-gray-700 hover:text-orange-500 transition-all duration-300 font-medium relative group"
+                  href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
+                  onClick={
+                    item === "Stores"
+                      ? (e) => {
+                          e.preventDefault()
+                          setIsStoresOpen(true)
+                        }
+                      : undefined
+                  }
+                  className="text-gray-700 hover:text-orange-500 transition-all duration-300 font-medium relative group cursor-pointer"
                 >
                   {item}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
@@ -661,11 +862,19 @@ export default function FoodDash() {
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 border-t pt-4 bg-white/90 backdrop-blur-sm rounded-lg">
               <div className="flex flex-col space-y-3">
-                {["Home", "Menu", "About", "Contact"].map((item) => (
+                {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
                   <a
                     key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-gray-700 hover:text-orange-500 transition-colors duration-300 py-2 px-4 rounded-lg hover:bg-orange-50"
+                    href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
+                    onClick={
+                      item === "Stores"
+                        ? (e) => {
+                            e.preventDefault()
+                            setIsStoresOpen(true)
+                          }
+                        : undefined
+                    }
+                    className="text-gray-700 hover:text-orange-500 transition-colors duration-300 py-2 px-4 rounded-lg hover:bg-orange-50 cursor-pointer"
                   >
                     {item}
                   </a>
@@ -1277,6 +1486,156 @@ export default function FoodDash() {
                   ))}
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Stores Modal */}
+      {isStoresOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-6xl bg-white/95 backdrop-blur-sm border-0 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h3 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                    Our Partner Restaurants 🏪
+                  </h3>
+                  <p className="text-gray-600 mt-2">Discover amazing restaurants we've partnered with</p>
+                </div>
+                <Button variant="ghost" onClick={() => setIsStoresOpen(false)} className="w-10 h-10 p-0">
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              {/* Store Category Filter */}
+              <div className="flex flex-wrap justify-center gap-3 mb-8">
+                {storeCategories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={activeStoreFilter === category ? "default" : "outline"}
+                    onClick={() => setActiveStoreFilter(category)}
+                    className={`capitalize transition-all duration-300 text-sm px-4 py-2 ${
+                      activeStoreFilter === category
+                        ? "bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg"
+                        : "hover:bg-orange-50 hover:border-orange-300 shadow-md hover:shadow-lg"
+                    }`}
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+
+              {/* Partner Stores Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredStores.map((store) => (
+                  <Card
+                    key={store.id}
+                    className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group bg-white/90 backdrop-blur-sm border-0 shadow-lg"
+                  >
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={store.image || "/placeholder.svg"}
+                        alt={store.name}
+                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                      {/* Store Badges */}
+                      <div className="absolute top-4 right-4 flex flex-col gap-2">
+                        <Badge className="bg-green-500/90 hover:bg-green-600 backdrop-blur-sm">
+                          <Star className="w-3 h-3 mr-1" />
+                          {store.rating}
+                        </Badge>
+                        {store.isVeg && <Badge className="bg-green-600/90 backdrop-blur-sm">🌱 Pure Veg</Badge>}
+                      </div>
+
+                      {/* Established Badge */}
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-blue-500/90 backdrop-blur-sm text-xs">Est. {store.established}</Badge>
+                      </div>
+                    </div>
+
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h4 className="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors duration-300">
+                            {store.name}
+                          </h4>
+                          <p className="text-sm text-gray-500">{store.location}</p>
+                        </div>
+                        <Badge variant="outline" className="text-xs">
+                          {store.cuisine}
+                        </Badge>
+                      </div>
+
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded-full">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {store.deliveryTime}
+                        </div>
+                        <div className="text-sm text-gray-600">{store.totalOrders} orders</div>
+                      </div>
+
+                      {/* Specialties */}
+                      <div className="mb-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">Specialties:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {store.specialties.slice(0, 3).map((specialty, index) => (
+                            <Badge key={index} variant="outline" className="text-xs">
+                              {specialty}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Offers */}
+                      <div className="mb-4 p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-200">
+                        <p className="text-sm font-medium text-orange-700 mb-1">🎉 Special Offer</p>
+                        <p className="text-xs text-orange-600">{store.offers}</p>
+                      </div>
+
+                      <Button
+                        className="w-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        onClick={() => {
+                          setIsStoresOpen(false)
+                          document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" })
+                        }}
+                      >
+                        View Menu 🍽️
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {filteredStores.length === 0 && (
+                <div className="text-center py-12">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-4xl">🏪</span>
+                  </div>
+                  <h4 className="text-xl font-semibold text-gray-800 mb-2">No Restaurants Found</h4>
+                  <p className="text-gray-600">Try selecting a different cuisine category.</p>
+                </div>
+              )}
+
+              {/* Partnership Stats */}
+              <div className="mt-12 pt-8 border-t border-gray-200">
+                <h4 className="text-2xl font-bold text-center text-gray-800 mb-8">Partnership Statistics</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  {[
+                    { number: partnerStores.length + "+", label: "Partner Restaurants", color: "text-orange-500" },
+                    { number: "50k+", label: "Total Orders", color: "text-red-500" },
+                    { number: "4.7★", label: "Average Rating", color: "text-green-500" },
+                    { number: "12", label: "Cuisine Types", color: "text-blue-500" },
+                  ].map((stat, index) => (
+                    <div key={index} className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg">
+                      <div className={`text-3xl font-bold ${stat.color} mb-2`}>{stat.number}</div>
+                      <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
