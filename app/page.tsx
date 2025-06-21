@@ -26,7 +26,6 @@ interface FoodItem {
   name: string
   description: string
   price: number
-  image: string
   rating: number
   category: string
   cookTime: string
@@ -65,7 +64,6 @@ export default function FoodDash() {
       name: "Margherita Pizza",
       description: "Fresh tomatoes, mozzarella, basil, olive oil on crispy crust",
       price: 299,
-      image: "/images/margherita-pizza.jpg",
       rating: 4.8,
       category: "pizza",
       cookTime: "25-30 min",
@@ -76,7 +74,6 @@ export default function FoodDash() {
       name: "Pepperoni Pizza",
       description: "Spicy pepperoni, mozzarella, tomato sauce",
       price: 399,
-      image: "/images/pepperoni-pizza.jpg",
       rating: 4.9,
       category: "pizza",
       cookTime: "25-30 min",
@@ -87,7 +84,6 @@ export default function FoodDash() {
       name: "Veggie Supreme Pizza",
       description: "Bell peppers, mushrooms, onions, olives, tomatoes",
       price: 349,
-      image: "/images/veggie-pizza.jpg",
       rating: 4.6,
       category: "pizza",
       cookTime: "25-30 min",
@@ -100,7 +96,6 @@ export default function FoodDash() {
       name: "Butter Chicken",
       description: "Creamy tomato curry with tender chicken pieces",
       price: 280,
-      image: "/images/butter-chicken.jpg",
       rating: 4.9,
       category: "indian",
       cookTime: "20-25 min",
@@ -112,7 +107,6 @@ export default function FoodDash() {
       name: "Paneer Tikka Masala",
       description: "Grilled paneer in rich tomato and cream gravy",
       price: 250,
-      image: "/images/paneer-tikka.jpg",
       rating: 4.7,
       category: "indian",
       cookTime: "20-25 min",
@@ -124,7 +118,6 @@ export default function FoodDash() {
       name: "Chicken Biryani",
       description: "Aromatic basmati rice with spiced chicken and herbs",
       price: 320,
-      image: "/images/biryani.jpg",
       rating: 4.8,
       category: "indian",
       cookTime: "30-35 min",
@@ -136,7 +129,6 @@ export default function FoodDash() {
       name: "Dal Tadka",
       description: "Yellow lentils tempered with aromatic spices",
       price: 180,
-      image: "/images/dal-tadka.jpg",
       rating: 4.5,
       category: "indian",
       cookTime: "15-20 min",
@@ -150,7 +142,6 @@ export default function FoodDash() {
       name: "Chicken Fried Rice",
       description: "Wok-fried rice with chicken, vegetables and soy sauce",
       price: 220,
-      image: "/images/fried-rice.jpg",
       rating: 4.6,
       category: "chinese",
       cookTime: "15-20 min",
@@ -161,7 +152,6 @@ export default function FoodDash() {
       name: "Hakka Noodles",
       description: "Stir-fried noodles with vegetables and Chinese sauces",
       price: 200,
-      image: "/images/hakka-noodles.jpg",
       rating: 4.5,
       category: "chinese",
       cookTime: "15-20 min",
@@ -172,7 +162,6 @@ export default function FoodDash() {
       name: "Veg Manchurian",
       description: "Crispy vegetable balls in spicy Indo-Chinese sauce",
       price: 240,
-      image: "/images/manchurian.jpg",
       rating: 4.7,
       category: "chinese",
       cookTime: "20-25 min",
@@ -186,7 +175,6 @@ export default function FoodDash() {
       name: "Chicken Burger",
       description: "Grilled chicken patty with lettuce, tomato and special sauce",
       price: 199,
-      image: "/images/chicken-burger.jpg",
       rating: 4.6,
       category: "burgers",
       cookTime: "15-20 min",
@@ -197,7 +185,6 @@ export default function FoodDash() {
       name: "Veg Burger",
       description: "Crispy vegetable patty with fresh vegetables and mayo",
       price: 149,
-      image: "/images/veg-burger.jpg",
       rating: 4.4,
       category: "burgers",
       cookTime: "15-20 min",
@@ -208,7 +195,6 @@ export default function FoodDash() {
       name: "Cheese Burger",
       description: "Juicy beef patty with melted cheese and pickles",
       price: 229,
-      image: "/images/cheese-burger.jpg",
       rating: 4.7,
       category: "burgers",
       cookTime: "15-20 min",
@@ -221,7 +207,6 @@ export default function FoodDash() {
       name: "Masala Dosa",
       description: "Crispy rice crepe filled with spiced potato curry",
       price: 120,
-      image: "/images/masala-dosa.jpg",
       rating: 4.8,
       category: "south-indian",
       cookTime: "15-20 min",
@@ -232,7 +217,6 @@ export default function FoodDash() {
       name: "Idli Sambar",
       description: "Steamed rice cakes served with lentil curry and chutney",
       price: 80,
-      image: "/images/idli-sambar.jpg",
       rating: 4.6,
       category: "south-indian",
       cookTime: "10-15 min",
@@ -243,7 +227,6 @@ export default function FoodDash() {
       name: "Uttapam",
       description: "Thick rice pancake topped with vegetables and served with chutney",
       price: 140,
-      image: "/images/uttapam.jpg",
       rating: 4.5,
       category: "south-indian",
       cookTime: "15-20 min",
@@ -256,7 +239,6 @@ export default function FoodDash() {
       name: "Pasta Alfredo",
       description: "Creamy white sauce pasta with parmesan and herbs",
       price: 280,
-      image: "/images/pasta-alfredo.jpg",
       rating: 4.6,
       category: "italian",
       cookTime: "20-25 min",
@@ -267,7 +249,6 @@ export default function FoodDash() {
       name: "Pasta Arrabbiata",
       description: "Spicy tomato sauce pasta with garlic and red chilies",
       price: 260,
-      image: "/images/pasta-arrabbiata.jpg",
       rating: 4.5,
       category: "italian",
       cookTime: "20-25 min",
@@ -281,7 +262,6 @@ export default function FoodDash() {
       name: "Gulab Jamun",
       description: "Sweet milk dumplings soaked in rose-flavored sugar syrup",
       price: 80,
-      image: "/images/gulab-jamun.jpg",
       rating: 4.7,
       category: "desserts",
       cookTime: "5-10 min",
@@ -292,7 +272,6 @@ export default function FoodDash() {
       name: "Chocolate Brownie",
       description: "Rich chocolate brownie served with vanilla ice cream",
       price: 150,
-      image: "/images/chocolate-brownie.jpg",
       rating: 4.8,
       category: "desserts",
       cookTime: "10-15 min",
@@ -305,7 +284,6 @@ export default function FoodDash() {
       name: "Masala Chai",
       description: "Traditional Indian spiced tea with milk and aromatic spices",
       price: 30,
-      image: "/images/masala-chai.jpg",
       rating: 4.9,
       category: "beverages",
       cookTime: "5-10 min",
@@ -316,7 +294,6 @@ export default function FoodDash() {
       name: "Fresh Lime Soda",
       description: "Refreshing lime drink with soda water and mint",
       price: 50,
-      image: "/images/lime-soda.jpg",
       rating: 4.4,
       category: "beverages",
       cookTime: "5 min",
@@ -327,7 +304,6 @@ export default function FoodDash() {
       name: "Mango Lassi",
       description: "Creamy yogurt drink blended with fresh mango pulp",
       price: 80,
-      image: "/images/mango-lassi.jpg",
       rating: 4.7,
       category: "beverages",
       cookTime: "5 min",
@@ -340,7 +316,6 @@ export default function FoodDash() {
       name: "Pani Puri",
       description: "Crispy hollow shells filled with spiced water and chutneys",
       price: 60,
-      image: "/images/pani-puri.jpg",
       rating: 4.8,
       category: "street-food",
       cookTime: "10-15 min",
@@ -352,7 +327,6 @@ export default function FoodDash() {
       name: "Bhel Puri",
       description: "Puffed rice mixed with vegetables, chutneys and sev",
       price: 70,
-      image: "/images/bhel-puri.jpg",
       rating: 4.6,
       category: "street-food",
       cookTime: "10-15 min",
@@ -364,7 +338,6 @@ export default function FoodDash() {
       name: "Vada Pav",
       description: "Spiced potato fritter served in bread bun with chutneys",
       price: 40,
-      image: "/images/vada-pav.jpg",
       rating: 4.7,
       category: "street-food",
       cookTime: "10-15 min",
@@ -975,36 +948,31 @@ export default function FoodDash() {
                 key={item.id}
                 className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group bg-white/90 backdrop-blur-sm border-0 shadow-lg"
               >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={item.image || "/placeholder.svg"}
-                    alt={item.name}
-                    className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="p-6 border-b border-gray-100">
+                  <div className="flex items-center justify-between mb-4">
+                    {/* Badges */}
+                    <div className="flex gap-2">
+                      <Badge className="bg-green-500/90 hover:bg-green-600">
+                        <Star className="w-3 h-3 mr-1" />
+                        {item.rating}
+                      </Badge>
+                      {item.isVeg && <Badge className="bg-green-600/90">🌱 Veg</Badge>}
+                    </div>
 
-                  {/* Badges */}
-                  <div className="absolute top-4 right-4 flex flex-col gap-2">
-                    <Badge className="bg-green-500/90 hover:bg-green-600 backdrop-blur-sm">
-                      <Star className="w-3 h-3 mr-1" />
-                      {item.rating}
-                    </Badge>
-                    {item.isVeg && <Badge className="bg-green-600/90 backdrop-blur-sm">🌱 Veg</Badge>}
+                    {/* Favorite Button */}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-10 h-10 rounded-full hover:bg-gray-100 p-0"
+                      onClick={() => toggleFavorite(item.id)}
+                    >
+                      <Heart
+                        className={`w-5 h-5 ${
+                          favorites.includes(item.id) ? "fill-red-500 text-red-500" : "text-gray-600"
+                        } transition-colors duration-300`}
+                      />
+                    </Button>
                   </div>
-
-                  {/* Favorite Button */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white/90 p-0"
-                    onClick={() => toggleFavorite(item.id)}
-                  >
-                    <Heart
-                      className={`w-5 h-5 ${
-                        favorites.includes(item.id) ? "fill-red-500 text-red-500" : "text-gray-600"
-                      } transition-colors duration-300`}
-                    />
-                  </Button>
                 </div>
 
                 <CardContent className="p-6">
@@ -1072,16 +1040,9 @@ export default function FoodDash() {
                 <div className="space-y-3 mb-6">
                   {cart.map((item) => (
                     <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center space-x-3">
-                        <img
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.name}
-                          className="w-12 h-12 rounded-lg object-cover"
-                        />
-                        <div>
-                          <span className="font-medium">{item.name}</span>
-                          <span className="text-gray-500 text-sm block">x{item.quantity}</span>
-                        </div>
+                      <div>
+                        <span className="font-medium">{item.name}</span>
+                        <span className="text-gray-500 text-sm block">x{item.quantity}</span>
                       </div>
                       <span className="font-bold text-orange-600">₹{item.price * item.quantity}</span>
                     </div>
