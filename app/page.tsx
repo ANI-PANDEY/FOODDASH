@@ -59,7 +59,7 @@ export default function FoodDash() {
   }, [])
 
   const foodItems: FoodItem[] = [
-    // Pizza
+    // Pizza Items
     {
       id: 1,
       name: "Margherita Pizza",
@@ -94,7 +94,7 @@ export default function FoodDash() {
       isVeg: true,
     },
 
-    // Indian Food
+    // Indian Food Items
     {
       id: 4,
       name: "Butter Chicken",
@@ -121,8 +121,8 @@ export default function FoodDash() {
     },
     {
       id: 6,
-      name: "Biryani (Chicken)",
-      description: "Aromatic basmati rice with spiced chicken",
+      name: "Chicken Biryani",
+      description: "Aromatic basmati rice with spiced chicken and herbs",
       price: 320,
       image: "/images/biryani.jpg",
       rating: 4.8,
@@ -134,7 +134,7 @@ export default function FoodDash() {
     {
       id: 7,
       name: "Dal Tadka",
-      description: "Yellow lentils tempered with spices",
+      description: "Yellow lentils tempered with aromatic spices",
       price: 180,
       image: "/images/dal-tadka.jpg",
       rating: 4.5,
@@ -144,11 +144,11 @@ export default function FoodDash() {
       spiceLevel: 1,
     },
 
-    // Chinese Food
+    // Chinese Food Items
     {
       id: 8,
       name: "Chicken Fried Rice",
-      description: "Wok-fried rice with chicken and vegetables",
+      description: "Wok-fried rice with chicken, vegetables and soy sauce",
       price: 220,
       image: "/images/fried-rice.jpg",
       rating: 4.6,
@@ -159,7 +159,7 @@ export default function FoodDash() {
     {
       id: 9,
       name: "Hakka Noodles",
-      description: "Stir-fried noodles with vegetables and sauces",
+      description: "Stir-fried noodles with vegetables and Chinese sauces",
       price: 200,
       image: "/images/hakka-noodles.jpg",
       rating: 4.5,
@@ -169,8 +169,8 @@ export default function FoodDash() {
     },
     {
       id: 10,
-      name: "Manchurian (Dry)",
-      description: "Crispy vegetable balls in spicy sauce",
+      name: "Veg Manchurian",
+      description: "Crispy vegetable balls in spicy Indo-Chinese sauce",
       price: 240,
       image: "/images/manchurian.jpg",
       rating: 4.7,
@@ -180,11 +180,11 @@ export default function FoodDash() {
       spiceLevel: 2,
     },
 
-    // Burgers
+    // Burger Items
     {
       id: 11,
       name: "Chicken Burger",
-      description: "Grilled chicken, lettuce, tomato, special sauce",
+      description: "Grilled chicken patty with lettuce, tomato and special sauce",
       price: 199,
       image: "/images/chicken-burger.jpg",
       rating: 4.6,
@@ -195,7 +195,7 @@ export default function FoodDash() {
     {
       id: 12,
       name: "Veg Burger",
-      description: "Crispy veg patty with fresh vegetables",
+      description: "Crispy vegetable patty with fresh vegetables and mayo",
       price: 149,
       image: "/images/veg-burger.jpg",
       rating: 4.4,
@@ -206,7 +206,7 @@ export default function FoodDash() {
     {
       id: 13,
       name: "Cheese Burger",
-      description: "Beef patty with melted cheese and pickles",
+      description: "Juicy beef patty with melted cheese and pickles",
       price: 229,
       image: "/images/cheese-burger.jpg",
       rating: 4.7,
@@ -215,11 +215,11 @@ export default function FoodDash() {
       isVeg: false,
     },
 
-    // South Indian
+    // South Indian Items
     {
       id: 14,
       name: "Masala Dosa",
-      description: "Crispy crepe with spiced potato filling",
+      description: "Crispy rice crepe filled with spiced potato curry",
       price: 120,
       image: "/images/masala-dosa.jpg",
       rating: 4.8,
@@ -230,7 +230,7 @@ export default function FoodDash() {
     {
       id: 15,
       name: "Idli Sambar",
-      description: "Steamed rice cakes with lentil curry",
+      description: "Steamed rice cakes served with lentil curry and chutney",
       price: 80,
       image: "/images/idli-sambar.jpg",
       rating: 4.6,
@@ -241,7 +241,7 @@ export default function FoodDash() {
     {
       id: 16,
       name: "Uttapam",
-      description: "Thick pancake with vegetables and chutneys",
+      description: "Thick rice pancake topped with vegetables and served with chutney",
       price: 140,
       image: "/images/uttapam.jpg",
       rating: 4.5,
@@ -250,11 +250,11 @@ export default function FoodDash() {
       isVeg: true,
     },
 
-    // Italian
+    // Italian Items
     {
       id: 17,
       name: "Pasta Alfredo",
-      description: "Creamy white sauce pasta with herbs",
+      description: "Creamy white sauce pasta with parmesan and herbs",
       price: 280,
       image: "/images/pasta-alfredo.jpg",
       rating: 4.6,
@@ -265,7 +265,7 @@ export default function FoodDash() {
     {
       id: 18,
       name: "Pasta Arrabbiata",
-      description: "Spicy tomato sauce pasta with garlic",
+      description: "Spicy tomato sauce pasta with garlic and red chilies",
       price: 260,
       image: "/images/pasta-arrabbiata.jpg",
       rating: 4.5,
@@ -275,11 +275,11 @@ export default function FoodDash() {
       spiceLevel: 2,
     },
 
-    // Desserts
+    // Dessert Items
     {
       id: 19,
       name: "Gulab Jamun",
-      description: "Sweet milk dumplings in sugar syrup",
+      description: "Sweet milk dumplings soaked in rose-flavored sugar syrup",
       price: 80,
       image: "/images/gulab-jamun.jpg",
       rating: 4.7,
@@ -290,7 +290,7 @@ export default function FoodDash() {
     {
       id: 20,
       name: "Chocolate Brownie",
-      description: "Rich chocolate brownie with vanilla ice cream",
+      description: "Rich chocolate brownie served with vanilla ice cream",
       price: 150,
       image: "/images/chocolate-brownie.jpg",
       rating: 4.8,
@@ -299,11 +299,11 @@ export default function FoodDash() {
       isVeg: true,
     },
 
-    // Beverages
+    // Beverage Items
     {
       id: 21,
       name: "Masala Chai",
-      description: "Traditional Indian spiced tea",
+      description: "Traditional Indian spiced tea with milk and aromatic spices",
       price: 30,
       image: "/images/masala-chai.jpg",
       rating: 4.9,
@@ -314,7 +314,7 @@ export default function FoodDash() {
     {
       id: 22,
       name: "Fresh Lime Soda",
-      description: "Refreshing lime drink with soda",
+      description: "Refreshing lime drink with soda water and mint",
       price: 50,
       image: "/images/lime-soda.jpg",
       rating: 4.4,
@@ -325,7 +325,7 @@ export default function FoodDash() {
     {
       id: 23,
       name: "Mango Lassi",
-      description: "Creamy yogurt drink with mango",
+      description: "Creamy yogurt drink blended with fresh mango pulp",
       price: 80,
       image: "/images/mango-lassi.jpg",
       rating: 4.7,
@@ -334,11 +334,11 @@ export default function FoodDash() {
       isVeg: true,
     },
 
-    // Street Food
+    // Street Food Items
     {
       id: 24,
       name: "Pani Puri",
-      description: "Crispy shells with spiced water and chutneys",
+      description: "Crispy hollow shells filled with spiced water and chutneys",
       price: 60,
       image: "/images/pani-puri.jpg",
       rating: 4.8,
@@ -350,7 +350,7 @@ export default function FoodDash() {
     {
       id: 25,
       name: "Bhel Puri",
-      description: "Puffed rice with vegetables and chutneys",
+      description: "Puffed rice mixed with vegetables, chutneys and sev",
       price: 70,
       image: "/images/bhel-puri.jpg",
       rating: 4.6,
@@ -362,7 +362,7 @@ export default function FoodDash() {
     {
       id: 26,
       name: "Vada Pav",
-      description: "Spiced potato fritter in bread bun",
+      description: "Spiced potato fritter served in bread bun with chutneys",
       price: 40,
       image: "/images/vada-pav.jpg",
       rating: 4.7,
@@ -545,10 +545,10 @@ export default function FoodDash() {
   ]
 
   const categories = [
-    { id: "all", name: "All", emoji: "🍽️" },
+    { id: "all", name: "All Items", emoji: "🍽️" },
+    { id: "pizza", name: "Pizza", emoji: "🍕" },
     { id: "indian", name: "Indian", emoji: "🍛" },
     { id: "chinese", name: "Chinese", emoji: "🥢" },
-    { id: "pizza", name: "Pizza", emoji: "🍕" },
     { id: "burgers", name: "Burgers", emoji: "🍔" },
     { id: "south-indian", name: "South Indian", emoji: "🥞" },
     { id: "italian", name: "Italian", emoji: "🍝" },
