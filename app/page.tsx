@@ -44,6 +44,12 @@ export default function FoodDash() {
   const [activeCategory, setActiveCategory] = useState("all")
   const [favorites, setFavorites] = useState<number[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoginOpen, setIsLoginOpen] = useState(false)
+  const [isSignupOpen, setIsSignupOpen] = useState(false)
+  const [user, setUser] = useState<{ name: string; email: string; phone: string } | null>(null)
+  const [orders, setOrders] = useState<any[]>([])
+  const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false)
+  const [currentOrder, setCurrentOrder] = useState<any>(null)
 
   useEffect(() => {
     // Simulate loading
@@ -422,6 +428,123 @@ export default function FoodDash() {
     return "🌶️".repeat(level)
   }
 
+  const generateOrderId = () => {
+    return "FD" + Date.now().toString().slice(-8) + Math.random().toString(36).substr(2, 4).toUpperCase()
+  }
+
+  const handleLogin = (email: string, password: string) => {
+    // Simulate login - in real app, this would be an API call
+    const userData = {
+      name: email.split("@")[0],
+      email: email,
+      phone: "+91 9876543210",
+    }
+    setUser(userData)
+    setIsLoginOpen(false)
+    // Load user's previous orders (simulated)
+    const mockOrders = [
+      {
+        id: "FD12345678",
+        items: ["Butter Chicken", "Naan"],
+        total: 350,
+        status: "delivered",
+        orderTime: new Date(Date.now() - 86400000).toISOString(),
+        estimatedTime: "25-30 min",
+      },
+    ]
+    setOrders(mockOrders)
+  }
+
+  const handleSignup = (name: string, email: string, phone: string, password: string) => {
+    const userData = { name, email, phone }
+    setUser(userData)
+    setIsSignupOpen(false)
+    setOrders([])
+  }
+
+  const handleLogout = () => {
+    setUser(null)
+    setOrders([])
+    setCart([])
+  }
+
+  const placeOrder = () => {
+    if (!user) {
+      setIsLoginOpen(true)
+      return
+    }
+
+    const orderId = generateOrderId()
+    const newOrder = {
+      id: orderId,
+      items: cart.map((item) => `${item.name} x${item.quantity}`),
+      total: getTotalPrice() + 20, // Including delivery charges
+      status: "confirmed",
+      orderTime: new Date().toISOString(),
+      estimatedTime: "25-30 min",
+      trackingSteps: [
+        { step: "Order Confirmed", time: new Date().toISOString(), completed: true },
+        { step: "Preparing Food", time: null, completed: false },
+        { step: "Out for Delivery", time: null, completed: false },
+        { step: "Delivered", time: null, completed: false },
+      ],
+    }
+
+    setOrders((prev) => [newOrder, ...prev])
+    setCurrentOrder(newOrder)
+    setCart([])
+    setIsOrderTrackingOpen(true)
+
+    // Simulate order progress
+    setTimeout(() => {
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.id === orderId
+            ? {
+                ...order,
+                status: "preparing",
+                trackingSteps: order.trackingSteps.map((step, index) =>
+                  index === 1 ? { ...step, time: new Date().toISOString(), completed: true } : step,
+                ),
+              }
+            : order,
+        ),
+      )
+    }, 3000)
+
+    setTimeout(() => {
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.id === orderId
+            ? {
+                ...order,
+                status: "out-for-delivery",
+                trackingSteps: order.trackingSteps.map((step, index) =>
+                  index === 2 ? { ...step, time: new Date().toISOString(), completed: true } : step,
+                ),
+              }
+            : order,
+        ),
+      )
+    }, 8000)
+
+    setTimeout(() => {
+      setOrders((prev) =>
+        prev.map((order) =>
+          order.id === orderId
+            ? {
+                ...order,
+                status: "delivered",
+                trackingSteps: order.trackingSteps.map((step, index) =>
+                  index === 3 ? { ...step, time: new Date().toISOString(), completed: true } : step,
+                ),
+              }
+            : order,
+        ),
+      )
+    }, 15000)
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center">
@@ -470,6 +593,49 @@ export default function FoodDash() {
             </nav>
 
             <div className="flex items-center space-x-4">
+              {user ? (
+                <div className="flex items-center space-x-3">
+                  <div className="hidden md:block text-right">
+                    <p className="text-sm font-medium text-gray-700">Welcome, {user.name}!</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsOrderTrackingOpen(true)}
+                    className="hover:bg-blue-50 hover:border-blue-300 transition-all duration-300"
+                  >
+                    Track Orders
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsLoginOpen(true)}
+                    className="hover:bg-blue-50 hover:border-blue-300 transition-all duration-300"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => setIsSignupOpen(true)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+              )}
+
               <Button
                 variant="outline"
                 size="sm"
@@ -722,10 +888,11 @@ export default function FoodDash() {
                   <p className="text-sm text-gray-500 mt-2">+ ₹20 delivery charges</p>
                 </div>
                 <Button
+                  onClick={placeOrder}
                   className="w-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl text-lg py-4"
                   size="lg"
                 >
-                  Proceed to Checkout 🚀
+                  {user ? "Place Order 🚀" : "Login to Order 🔐"}
                 </Button>
               </CardContent>
             </Card>
@@ -847,6 +1014,273 @@ export default function FoodDash() {
           </div>
         </div>
       </footer>
+
+      {/* Login Modal */}
+      {isLoginOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
+            <CardContent className="p-8">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold text-2xl">🔐</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800">Welcome Back!</h3>
+                <p className="text-gray-600">Login to your FoodDash account</p>
+              </div>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const formData = new FormData(e.target as HTMLFormElement)
+                  handleLogin(formData.get("email") as string, formData.get("password") as string)
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your email"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your password"
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={() => setIsLoginOpen(false)} className="flex-1">
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                  >
+                    Login
+                  </Button>
+                </div>
+              </form>
+
+              <p className="text-center mt-4 text-sm text-gray-600">
+                Don't have an account?{" "}
+                <button
+                  onClick={() => {
+                    setIsLoginOpen(false)
+                    setIsSignupOpen(true)
+                  }}
+                  className="text-blue-500 hover:text-blue-600 font-medium"
+                >
+                  Sign up here
+                </button>
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Signup Modal */}
+      {isSignupOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
+            <CardContent className="p-8">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold text-2xl">👋</span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800">Join FoodDash!</h3>
+                <p className="text-gray-600">Create your account to start ordering</p>
+              </div>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const formData = new FormData(e.target as HTMLFormElement)
+                  handleSignup(
+                    formData.get("name") as string,
+                    formData.get("email") as string,
+                    formData.get("phone") as string,
+                    formData.get("password") as string,
+                  )
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your email"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Create a password"
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <Button type="button" variant="outline" onClick={() => setIsSignupOpen(false)} className="flex-1">
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+              </form>
+
+              <p className="text-center mt-4 text-sm text-gray-600">
+                Already have an account?{" "}
+                <button
+                  onClick={() => {
+                    setIsSignupOpen(false)
+                    setIsLoginOpen(true)
+                  }}
+                  className="text-green-500 hover:text-green-600 font-medium"
+                >
+                  Login here
+                </button>
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Order Tracking Modal */}
+      {isOrderTrackingOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl bg-white/95 backdrop-blur-sm border-0 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-800">Order Tracking</h3>
+                  <p className="text-gray-600">Track your delicious orders</p>
+                </div>
+                <Button variant="ghost" onClick={() => setIsOrderTrackingOpen(false)} className="w-10 h-10 p-0">
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              {orders.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-4xl">📦</span>
+                  </div>
+                  <h4 className="text-xl font-semibold text-gray-800 mb-2">No Orders Yet</h4>
+                  <p className="text-gray-600">Start ordering to see your order history here!</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {orders.map((order) => (
+                    <Card
+                      key={order.id}
+                      className="border-2 border-gray-100 hover:border-orange-200 transition-colors duration-300"
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h4 className="text-lg font-bold text-gray-800">Order #{order.id}</h4>
+                            <p className="text-sm text-gray-500">{new Date(order.orderTime).toLocaleString()}</p>
+                          </div>
+                          <Badge
+                            className={`${
+                              order.status === "delivered"
+                                ? "bg-green-500"
+                                : order.status === "out-for-delivery"
+                                  ? "bg-blue-500"
+                                  : order.status === "preparing"
+                                    ? "bg-yellow-500"
+                                    : "bg-orange-500"
+                            }`}
+                          >
+                            {order.status.replace("-", " ").toUpperCase()}
+                          </Badge>
+                        </div>
+
+                        <div className="mb-4">
+                          <p className="text-sm text-gray-600 mb-2">Items:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {order.items.map((item, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {item}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="font-semibold text-gray-800">Total: ₹{order.total}</span>
+                          <span className="text-sm text-gray-500">Est. {order.estimatedTime}</span>
+                        </div>
+
+                        {/* Order Tracking Steps */}
+                        {order.trackingSteps && (
+                          <div className="space-y-3">
+                            <p className="text-sm font-medium text-gray-700">Order Progress:</p>
+                            {order.trackingSteps.map((step, index) => (
+                              <div key={index} className="flex items-center space-x-3">
+                                <div
+                                  className={`w-4 h-4 rounded-full ${step.completed ? "bg-green-500" : "bg-gray-300"}`}
+                                ></div>
+                                <div className="flex-1">
+                                  <p
+                                    className={`text-sm ${step.completed ? "text-green-700 font-medium" : "text-gray-500"}`}
+                                  >
+                                    {step.step}
+                                  </p>
+                                  {step.time && (
+                                    <p className="text-xs text-gray-400">{new Date(step.time).toLocaleTimeString()}</p>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }
