@@ -19,6 +19,11 @@ import {
   CreditCard,
   Wallet,
   Smartphone,
+  Truck,
+  Users,
+  Award,
+  Shield,
+  Zap,
 } from "lucide-react"
 
 interface FoodItem {
@@ -55,6 +60,7 @@ export default function FoodDash() {
   const [isPaymentOpen, setIsPaymentOpen] = useState(false)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
+  const [isDeliveryPartnersOpen, setIsDeliveryPartnersOpen] = useState(false)
 
   const foodItems: FoodItem[] = [
     // Pizza Items
@@ -432,6 +438,93 @@ export default function FoodDash() {
     },
   ]
 
+  const deliveryPartners = [
+    {
+      id: 1,
+      name: "Rajesh Kumar",
+      rating: 4.9,
+      deliveries: "2,500+",
+      experience: "3 years",
+      vehicle: "Bike",
+      location: "Central Delhi",
+      speciality: "Fast Delivery",
+      languages: ["Hindi", "English"],
+      avatar: "👨‍🦱",
+      status: "online",
+      badge: "Top Performer",
+    },
+    {
+      id: 2,
+      name: "Priya Sharma",
+      rating: 4.8,
+      deliveries: "1,800+",
+      experience: "2 years",
+      vehicle: "Scooter",
+      location: "South Delhi",
+      speciality: "Careful Handling",
+      languages: ["Hindi", "English", "Punjabi"],
+      avatar: "👩‍🦰",
+      status: "online",
+      badge: "Customer Favorite",
+    },
+    {
+      id: 3,
+      name: "Mohammed Ali",
+      rating: 4.7,
+      deliveries: "3,200+",
+      experience: "4 years",
+      vehicle: "Bike",
+      location: "North Delhi",
+      speciality: "Night Delivery",
+      languages: ["Hindi", "English", "Urdu"],
+      avatar: "👨‍🦲",
+      status: "busy",
+      badge: "Veteran",
+    },
+    {
+      id: 4,
+      name: "Sneha Patel",
+      rating: 4.9,
+      deliveries: "2,100+",
+      experience: "2.5 years",
+      vehicle: "Electric Bike",
+      location: "West Delhi",
+      speciality: "Eco-Friendly",
+      languages: ["Hindi", "English", "Gujarati"],
+      avatar: "👩‍🦱",
+      status: "online",
+      badge: "Eco Warrior",
+    },
+    {
+      id: 5,
+      name: "Amit Singh",
+      rating: 4.6,
+      deliveries: "1,500+",
+      experience: "1.5 years",
+      vehicle: "Scooter",
+      location: "East Delhi",
+      speciality: "Quick Response",
+      languages: ["Hindi", "English"],
+      avatar: "👨‍🦳",
+      status: "online",
+      badge: "Rising Star",
+    },
+    {
+      id: 6,
+      name: "Kavya Reddy",
+      rating: 4.8,
+      deliveries: "2,800+",
+      experience: "3.5 years",
+      vehicle: "Bike",
+      location: "Central Delhi",
+      speciality: "Premium Orders",
+      languages: ["Hindi", "English", "Telugu"],
+      avatar: "👩‍🦳",
+      status: "online",
+      badge: "Premium Partner",
+    },
+  ]
+
   const storeCategories = ["all", "indian", "italian", "chinese", "american", "south indian", "desserts"]
 
   const filteredStores =
@@ -440,16 +533,16 @@ export default function FoodDash() {
       : partnerStores.filter((store) => store.cuisine.toLowerCase().includes(activeStoreFilter.toLowerCase()))
 
   const categories = [
-    { id: "all", name: "All Items" },
-    { id: "pizza", name: "Pizza" },
-    { id: "indian", name: "Indian" },
-    { id: "chinese", name: "Chinese" },
-    { id: "burgers", name: "Burgers" },
-    { id: "south-indian", name: "South Indian" },
-    { id: "italian", name: "Italian" },
-    { id: "desserts", name: "Desserts" },
-    { id: "beverages", name: "Beverages" },
-    { id: "street-food", name: "Street Food" },
+    { id: "all", name: "All Items", emoji: "🍽️" },
+    { id: "pizza", name: "Pizza", emoji: "🍕" },
+    { id: "indian", name: "Indian", emoji: "🍛" },
+    { id: "chinese", name: "Chinese", emoji: "🥡" },
+    { id: "burgers", name: "Burgers", emoji: "🍔" },
+    { id: "south-indian", name: "South Indian", emoji: "🥞" },
+    { id: "italian", name: "Italian", emoji: "🍝" },
+    { id: "desserts", name: "Desserts", emoji: "🍰" },
+    { id: "beverages", name: "Beverages", emoji: "🥤" },
+    { id: "street-food", name: "Street Food", emoji: "🌮" },
   ]
 
   const paymentMethods = [
@@ -630,49 +723,68 @@ export default function FoodDash() {
     return (sum / itemReviews.length).toFixed(1)
   }
 
+  const scrollToMenu = () => {
+    document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" })
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-red-50">
       {/* Header */}
-      <header className="bg-white shadow-md sticky top-0 z-50">
+      <header className="bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-orange-100">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Enhanced Logo */}
-            <div className="flex items-center space-x-3">
-              <div className="relative">
+            <div className="flex items-center space-x-4">
+              <div className="relative group">
                 {/* Main Logo Circle */}
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-                  <span className="text-white font-bold text-xl">🍽️</span>
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-xl border-3 border-white transform group-hover:scale-105 transition-transform duration-300">
+                  <span className="text-white font-bold text-2xl">🍽️</span>
                 </div>
-                {/* Small accent dot */}
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                {/* Animated accent dot */}
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full border-2 border-white flex items-center justify-center animate-pulse">
                   <span className="text-white text-xs font-bold">✓</span>
                 </div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
                   FoodDash
                 </h1>
-                <p className="text-xs text-gray-500 font-medium">Fast • Fresh • Delicious</p>
+                <p className="text-sm text-gray-600 font-medium flex items-center space-x-1">
+                  <Zap className="w-3 h-3 text-orange-500" />
+                  <span>Fast</span>
+                  <span>•</span>
+                  <span>Fresh</span>
+                  <span>•</span>
+                  <span>Delicious</span>
+                </p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-6">
-              {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
+            <nav className="hidden md:flex items-center space-x-8">
+              {[
+                { name: "Home", href: "#home" },
+                { name: "Menu", action: scrollToMenu },
+                { name: "Stores", action: () => setIsStoresOpen(true) },
+                { name: "Partners", action: () => setIsDeliveryPartnersOpen(true) },
+                { name: "About", href: "#about" },
+                { name: "Contact", href: "#contact" },
+              ].map((item) => (
                 <a
-                  key={item}
-                  href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
+                  key={item.name}
+                  href={item.href || "#"}
                   onClick={
-                    item === "Stores"
+                    item.action
                       ? (e) => {
                           e.preventDefault()
-                          setIsStoresOpen(true)
+                          item.action()
                         }
                       : undefined
                   }
-                  className="text-gray-700 hover:text-orange-500 font-medium cursor-pointer transition-colors duration-200"
+                  className="text-gray-700 hover:text-orange-500 font-medium cursor-pointer transition-all duration-200 hover:scale-105 relative group"
                 >
-                  {item}
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
                 </a>
               ))}
             </nav>
@@ -684,29 +796,54 @@ export default function FoodDash() {
                     <p className="text-sm font-medium text-gray-700">Welcome, {user.name}!</p>
                     <p className="text-xs text-gray-500">{user.email}</p>
                   </div>
-                  <Button variant="outline" size="sm" onClick={() => setIsOrderTrackingOpen(true)}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsOrderTrackingOpen(true)}
+                    className="border-orange-200 hover:border-orange-300 hover:bg-orange-50"
+                  >
                     Track Orders
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-600 hover:text-red-700">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
                     Logout
                   </Button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm" onClick={() => setIsLoginOpen(true)}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsLoginOpen(true)}
+                    className="border-orange-200 hover:border-orange-300 hover:bg-orange-50"
+                  >
                     Login
                   </Button>
-                  <Button size="sm" onClick={() => setIsSignupOpen(true)} className="bg-blue-500 hover:bg-blue-600">
+                  <Button
+                    size="sm"
+                    onClick={() => setIsSignupOpen(true)}
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg"
+                  >
                     Sign Up
                   </Button>
                 </div>
               )}
 
-              <Button variant="outline" size="sm" className="relative">
+              <Button
+                variant="outline"
+                size="sm"
+                className="relative border-orange-200 hover:border-orange-300 hover:bg-orange-50"
+              >
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 Cart
                 {getTotalItems() > 0 && (
-                  <Badge className="absolute -top-2 -right-2 bg-red-500">{getTotalItems()}</Badge>
+                  <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 animate-bounce">
+                    {getTotalItems()}
+                  </Badge>
                 )}
               </Button>
 
@@ -719,23 +856,31 @@ export default function FoodDash() {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <nav className="md:hidden mt-4 pb-4 border-t pt-4">
+            <nav className="md:hidden mt-4 pb-4 border-t pt-4 bg-white/90 backdrop-blur-sm rounded-lg">
               <div className="flex flex-col space-y-3">
-                {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
+                {[
+                  { name: "Home", href: "#home" },
+                  { name: "Menu", action: scrollToMenu },
+                  { name: "Stores", action: () => setIsStoresOpen(true) },
+                  { name: "Partners", action: () => setIsDeliveryPartnersOpen(true) },
+                  { name: "About", href: "#about" },
+                  { name: "Contact", href: "#contact" },
+                ].map((item) => (
                   <a
-                    key={item}
-                    href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
+                    key={item.name}
+                    href={item.href || "#"}
                     onClick={
-                      item === "Stores"
+                      item.action
                         ? (e) => {
                             e.preventDefault()
-                            setIsStoresOpen(true)
+                            item.action()
+                            setIsMenuOpen(false)
                           }
-                        : undefined
+                        : () => setIsMenuOpen(false)
                     }
-                    className="text-gray-700 hover:text-orange-500 py-2 px-4 rounded hover:bg-gray-100 cursor-pointer"
+                    className="text-gray-700 hover:text-orange-500 py-3 px-4 rounded-lg hover:bg-orange-50 cursor-pointer transition-all duration-200"
                   >
-                    {item}
+                    {item.name}
                   </a>
                 ))}
               </div>
@@ -745,157 +890,233 @@ export default function FoodDash() {
       </header>
 
       {/* Hero Section */}
-      <section id="home" className="py-16 px-4 bg-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-5xl font-bold text-gray-800 mb-6">
-            Delicious Food
-            <span className="block text-orange-500">Delivered Fast</span>
-          </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Order your favorite meals from the best restaurants in town. Fast delivery, fresh ingredients, amazing taste
-            guaranteed.
-          </p>
+      <section
+        id="home"
+        className="py-20 px-4 bg-gradient-to-br from-orange-100 via-white to-red-100 relative overflow-hidden"
+      >
+        {/* Background decorations */}
+        <div className="absolute top-10 left-10 w-20 h-20 bg-orange-200 rounded-full opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-red-200 rounded-full opacity-20 animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-pink-200 rounded-full opacity-20 animate-pulse delay-500"></div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-4">
-              Order Now
-            </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-              View Menu
-            </Button>
+        <div className="container mx-auto text-center relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-6xl md:text-7xl font-bold text-gray-800 mb-8 leading-tight">
+              <span className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
+                Delicious Food
+              </span>
+              <span className="block text-gray-700 mt-2">Delivered Fast</span>
+            </h2>
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Order your favorite meals from the best restaurants in town. Fast delivery, fresh ingredients, amazing
+              taste guaranteed with our premium delivery partners.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Button
+                size="lg"
+                onClick={scrollToMenu}
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-xl px-10 py-6 rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300"
+              >
+                <span className="mr-2">🍽️</span>
+                Order Now
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={scrollToMenu}
+                className="text-xl px-10 py-6 rounded-2xl border-2 border-orange-300 hover:border-orange-400 hover:bg-orange-50 transform hover:scale-105 transition-all duration-300"
+              >
+                <span className="mr-2">📋</span>
+                View Menu
+              </Button>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-2xl mx-auto">
+              {[
+                { number: "500+", label: "Restaurants", icon: "🏪" },
+                { number: "10k+", label: "Happy Customers", icon: "😊" },
+                { number: "30min", label: "Avg Delivery", icon: "⚡" },
+                { number: "4.8★", label: "Rating", icon: "⭐" },
+              ].map((stat, index) => (
+                <div
+                  key={index}
+                  className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  <div className="text-2xl mb-2">{stat.icon}</div>
+                  <div className="text-2xl font-bold text-orange-500 mb-1">{stat.number}</div>
+                  <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Menu Section */}
-      <section id="menu" className="py-16 px-4">
+      <section id="menu" className="py-20 px-4 bg-white">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-gray-800 mb-4">Our Menu</h3>
-            <p className="text-xl text-gray-600">Choose from our delicious selection</p>
+          <div className="text-center mb-16">
+            <h3 className="text-5xl font-bold text-gray-800 mb-6">
+              Our{" "}
+              <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Menu</span>
+            </h3>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Choose from our delicious selection of freshly prepared meals
+            </p>
           </div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className="flex flex-wrap justify-center gap-4 mb-16">
             {categories.map((category) => (
               <Button
                 key={category.id}
                 variant={activeCategory === category.id ? "default" : "outline"}
                 onClick={() => setActiveCategory(category.id)}
-                className={activeCategory === category.id ? "bg-orange-500 hover:bg-orange-600" : ""}
+                className={`${
+                  activeCategory === category.id
+                    ? "bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg"
+                    : "border-orange-200 hover:border-orange-300 hover:bg-orange-50"
+                } px-6 py-3 rounded-full font-medium transform hover:scale-105 transition-all duration-200`}
               >
+                <span className="mr-2">{category.emoji}</span>
                 {category.name}
               </Button>
             ))}
           </div>
 
           {/* Food Items Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredItems.map((item) => (
-              <Card key={item.id} className="hover:shadow-lg">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex gap-2">
-                      <Badge className="bg-green-500">
+              <Card
+                key={item.id}
+                className="hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0 shadow-lg bg-white/90 backdrop-blur-sm overflow-hidden"
+              >
+                <CardContent className="p-0">
+                  {/* Image placeholder with gradient */}
+                  <div className="h-48 bg-gradient-to-br from-orange-200 via-red-200 to-pink-200 flex items-center justify-center relative">
+                    <span className="text-6xl opacity-80">
+                      {categories.find((cat) => cat.id === item.category)?.emoji || "🍽️"}
+                    </span>
+                    <div className="absolute top-4 right-4 flex flex-col gap-2">
+                      <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg">
                         <Star className="w-3 h-3 mr-1" />
                         {item.rating}
                       </Badge>
-                      {item.isVeg && <Badge className="bg-green-600">Veg</Badge>}
+                      {item.isVeg && (
+                        <Badge className="bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg">
+                          🌱 Veg
+                        </Badge>
+                      )}
                     </div>
-
-                    <Button variant="ghost" size="sm" className="w-8 h-8 p-0" onClick={() => toggleFavorite(item.id)}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-4 left-4 w-10 h-10 p-0 bg-white/80 backdrop-blur-sm hover:bg-white/90"
+                      onClick={() => toggleFavorite(item.id)}
+                    >
                       <Heart
-                        className={`w-4 h-4 ${
+                        className={`w-5 h-5 ${
                           favorites.includes(item.id) ? "fill-red-500 text-red-500" : "text-gray-600"
                         }`}
                       />
                     </Button>
                   </div>
 
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-bold text-gray-800">{item.name}</h4>
-                    {item.spiceLevel && <span className="text-sm">{getSpiceIndicator(item.spiceLevel)}</span>}
-                  </div>
-
-                  <p className="text-gray-600 mb-4 text-sm">{item.description}</p>
-
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xl font-bold text-orange-500">₹{item.price}</span>
-                    <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-2 py-1 rounded">
-                      <Clock className="w-3 h-3 mr-1" />
-                      {item.cookTime}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      {cart.find((cartItem) => cartItem.id === item.id) && (
-                        <>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => removeFromCart(item.id)}
-                            className="w-8 h-8 p-0"
-                          >
-                            <Minus className="w-4 h-4" />
-                          </Button>
-                          <span className="font-bold text-lg min-w-[2rem] text-center">
-                            {cart.find((cartItem) => cartItem.id === item.id)?.quantity || 0}
-                          </span>
-                        </>
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <h4 className="text-xl font-bold text-gray-800">{item.name}</h4>
+                      {item.spiceLevel && (
+                        <span className="text-lg flex items-center">{getSpiceIndicator(item.spiceLevel)}</span>
                       )}
                     </div>
-                    <Button onClick={() => addToCart(item)} className="bg-orange-500 hover:bg-orange-600">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add to Cart
-                    </Button>
-                  </div>
 
-                  <div className="flex items-center justify-between mt-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        if (!user) {
-                          setIsLoginOpen(true)
-                          return
-                        }
-                        setSelectedItemForReview(item)
-                        setIsReviewModalOpen(true)
-                      }}
-                      className="text-xs"
-                    >
-                      Write Review
-                    </Button>
-                    <div className="text-xs text-gray-500">{getItemReviews(item.id).length} reviews</div>
-                  </div>
+                    <p className="text-gray-600 mb-4 text-sm leading-relaxed">{item.description}</p>
 
-                  {/* Show recent reviews for this item */}
-                  {getItemReviews(item.id).length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-gray-100">
-                      <p className="text-sm font-medium text-gray-700 mb-2">Recent Reviews:</p>
-                      {getItemReviews(item.id)
-                        .slice(0, 2)
-                        .map((review) => (
-                          <div key={review.id} className="mb-2 p-2 bg-gray-50 rounded text-xs">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="font-medium">{review.userName}</span>
-                              <div className="flex">
-                                {[...Array(5)].map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    className={`w-3 h-3 ${
-                                      i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                            <p className="text-gray-600">{review.comment}</p>
-                          </div>
-                        ))}
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                        ₹{item.price}
+                      </span>
+                      <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-3 py-2 rounded-full">
+                        <Clock className="w-4 h-4 mr-1" />
+                        {item.cookTime}
+                      </div>
                     </div>
-                  )}
+
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        {cart.find((cartItem) => cartItem.id === item.id) && (
+                          <>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => removeFromCart(item.id)}
+                              className="w-10 h-10 p-0 rounded-full border-orange-200 hover:border-orange-300 hover:bg-orange-50"
+                            >
+                              <Minus className="w-4 h-4" />
+                            </Button>
+                            <span className="font-bold text-xl min-w-[2rem] text-center text-orange-600">
+                              {cart.find((cartItem) => cartItem.id === item.id)?.quantity || 0}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                      <Button
+                        onClick={() => addToCart(item)}
+                        className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-6 py-2 rounded-full shadow-lg transform hover:scale-105 transition-all duration-200"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add to Cart
+                      </Button>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          if (!user) {
+                            setIsLoginOpen(true)
+                            return
+                          }
+                          setSelectedItemForReview(item)
+                          setIsReviewModalOpen(true)
+                        }}
+                        className="text-xs border-orange-200 hover:border-orange-300 hover:bg-orange-50"
+                      >
+                        ⭐ Write Review
+                      </Button>
+                      <div className="text-xs text-gray-500">{getItemReviews(item.id).length} reviews</div>
+                    </div>
+
+                    {/* Show recent reviews for this item */}
+                    {getItemReviews(item.id).length > 0 && (
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <p className="text-sm font-medium text-gray-700 mb-3">Recent Reviews:</p>
+                        {getItemReviews(item.id)
+                          .slice(0, 2)
+                          .map((review) => (
+                            <div key={review.id} className="mb-3 p-3 bg-gray-50 rounded-lg text-xs">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="font-medium text-gray-800">{review.userName}</span>
+                                <div className="flex">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className={`w-3 h-3 ${
+                                        i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                              <p className="text-gray-600 leading-relaxed">{review.comment}</p>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -905,35 +1126,46 @@ export default function FoodDash() {
 
       {/* Cart Summary */}
       {cart.length > 0 && (
-        <section className="py-8 px-4 bg-orange-50">
+        <section className="py-12 px-4 bg-gradient-to-r from-orange-100 via-red-50 to-pink-100">
           <div className="container mx-auto">
-            <Card className="max-w-md mx-auto">
-              <CardContent className="p-6">
-                <h4 className="text-xl font-bold mb-4 text-center text-orange-500">Order Summary</h4>
-                <div className="space-y-3 mb-6">
+            <Card className="max-w-lg mx-auto shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+              <CardContent className="p-8">
+                <h4 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                  Order Summary
+                </h4>
+                <div className="space-y-4 mb-8">
                   {cart.map((item) => (
-                    <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                    <div key={item.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-xl">
                       <div>
-                        <span className="font-medium">{item.name}</span>
-                        <span className="text-gray-500 text-sm block">x{item.quantity}</span>
+                        <span className="font-medium text-gray-800">{item.name}</span>
+                        <span className="text-gray-500 text-sm block">Quantity: {item.quantity}</span>
                       </div>
-                      <span className="font-bold text-orange-600">₹{item.price * item.quantity}</span>
+                      <span className="font-bold text-orange-600 text-lg">₹{item.price * item.quantity}</span>
                     </div>
                   ))}
                 </div>
-                <div className="border-t pt-4 mb-6">
-                  <div className="flex justify-between items-center text-xl font-bold">
-                    <span>Total:</span>
-                    <span className="text-orange-500">₹{getTotalPrice()}</span>
+                <div className="border-t pt-6 mb-8">
+                  <div className="flex justify-between items-center text-lg mb-2">
+                    <span>Subtotal:</span>
+                    <span>₹{getTotalPrice()}</span>
                   </div>
-                  <p className="text-sm text-gray-500 mt-2">+ ₹20 delivery charges</p>
+                  <div className="flex justify-between items-center text-lg mb-4">
+                    <span>Delivery Fee:</span>
+                    <span>₹20</span>
+                  </div>
+                  <div className="flex justify-between items-center text-2xl font-bold border-t pt-4">
+                    <span>Total:</span>
+                    <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                      ₹{getTotalPrice() + 20}
+                    </span>
+                  </div>
                 </div>
                 <Button
                   onClick={placeOrder}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-lg py-3"
+                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-lg py-4 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                   size="lg"
                 >
-                  {user ? "Proceed to Payment" : "Login to Order"}
+                  {user ? "🚀 Proceed to Payment" : "🔐 Login to Order"}
                 </Button>
               </CardContent>
             </Card>
@@ -941,24 +1173,187 @@ export default function FoodDash() {
         </section>
       )}
 
-      {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-white">
+      {/* Delivery Partners Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-blue-50 via-white to-indigo-50">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center mb-16">
+            <h3 className="text-5xl font-bold text-gray-800 mb-6">
+              Our{" "}
+              <span className="bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                Delivery Partners
+              </span>
+            </h3>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Meet our trusted delivery heroes who ensure your food reaches you fresh, fast, and with a smile
+            </p>
+          </div>
+
+          {/* Partner Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-4xl mx-auto">
+            {[
+              { number: "50+", label: "Active Partners", icon: Users },
+              { number: "99.8%", label: "On-Time Delivery", icon: Clock },
+              { number: "4.9★", label: "Average Rating", icon: Star },
+              { number: "24/7", label: "Service Available", icon: Shield },
+            ].map((stat, index) => (
+              <div
+                key={index}
+                className="text-center p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                <stat.icon className="w-8 h-8 text-blue-500 mx-auto mb-3" />
+                <div className="text-3xl font-bold text-blue-600 mb-2">{stat.number}</div>
+                <div className="text-gray-600 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Partners Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {deliveryPartners.map((partner) => (
+              <Card
+                key={partner.id}
+                className="hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0 shadow-lg bg-white/90 backdrop-blur-sm overflow-hidden"
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-3xl shadow-lg">
+                        {partner.avatar}
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold text-gray-800">{partner.name}</h4>
+                        <p className="text-sm text-gray-500">{partner.location}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <Badge
+                        className={`mb-2 ${
+                          partner.status === "online"
+                            ? "bg-gradient-to-r from-green-500 to-emerald-500"
+                            : "bg-gradient-to-r from-yellow-500 to-orange-500"
+                        }`}
+                      >
+                        {partner.status === "online" ? "🟢 Online" : "🟡 Busy"}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs border-blue-200">
+                        {partner.badge}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="text-center p-3 bg-blue-50 rounded-lg">
+                      <div className="text-lg font-bold text-blue-600">{partner.rating}</div>
+                      <div className="text-xs text-gray-600">Rating</div>
+                    </div>
+                    <div className="text-center p-3 bg-green-50 rounded-lg">
+                      <div className="text-lg font-bold text-green-600">{partner.deliveries}</div>
+                      <div className="text-xs text-gray-600">Deliveries</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 mb-4">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Experience:</span>
+                      <span className="font-medium">{partner.experience}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Vehicle:</span>
+                      <span className="font-medium">{partner.vehicle}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Specialty:</span>
+                      <span className="font-medium text-blue-600">{partner.speciality}</span>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <p className="text-sm text-gray-600 mb-2">Languages:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {partner.languages.map((lang, index) => (
+                        <Badge key={index} variant="outline" className="text-xs border-gray-200">
+                          {lang}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-center">
+                    <div className="flex items-center space-x-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < Math.floor(partner.rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                          }`}
+                        />
+                      ))}
+                      <span className="text-sm text-gray-600 ml-2">({partner.rating})</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Join as Partner CTA */}
+          <div className="mt-16 text-center">
+            <Card className="max-w-2xl mx-auto bg-gradient-to-r from-blue-500 to-indigo-600 border-0 shadow-2xl">
+              <CardContent className="p-8 text-white">
+                <h4 className="text-3xl font-bold mb-4">Join Our Delivery Team!</h4>
+                <p className="text-lg mb-6 opacity-90">
+                  Become a FoodDash delivery partner and earn flexible income while serving your community
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    size="lg"
+                    className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300"
+                  >
+                    <Truck className="w-5 h-5 mr-2" />
+                    Apply Now
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300"
+                  >
+                    Learn More
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h3 className="text-4xl font-bold text-gray-800 mb-6">About FoodDash</h3>
-              <p className="text-lg text-gray-600 mb-6">
+              <h3 className="text-5xl font-bold text-gray-800 mb-8">
+                About{" "}
+                <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                  FoodDash
+                </span>
+              </h3>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                 We're passionate about bringing you the best food from your favorite restaurants, delivered fresh and
-                fast to your doorstep. Our mission is to make great food accessible to everyone, anytime, anywhere.
+                fast to your doorstep. Our mission is to make great food accessible to everyone, anytime, anywhere with
+                our network of trusted delivery partners.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 {[
-                  { number: "500+", label: "Restaurants" },
-                  { number: "10k+", label: "Happy Customers" },
-                  { number: "30min", label: "Avg Delivery" },
-                  { number: "4.8★", label: "Rating" },
+                  { number: "500+", label: "Restaurants", icon: "🏪" },
+                  { number: "10k+", label: "Happy Customers", icon: "😊" },
+                  { number: "30min", label: "Avg Delivery", icon: "⚡" },
+                  { number: "4.8★", label: "Rating", icon: "⭐" },
                 ].map((stat, index) => (
-                  <div key={index} className="text-center p-4 bg-gray-50 rounded-lg">
+                  <div
+                    key={index}
+                    className="text-center p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                  >
+                    <div className="text-3xl mb-3">{stat.icon}</div>
                     <div className="text-3xl font-bold text-orange-500 mb-2">{stat.number}</div>
                     <div className="text-gray-600 font-medium">{stat.label}</div>
                   </div>
@@ -966,8 +1361,8 @@ export default function FoodDash() {
               </div>
             </div>
             <div className="text-center">
-              <div className="w-64 h-64 bg-orange-100 rounded-lg mx-auto flex items-center justify-center">
-                <span className="text-6xl">🍽️</span>
+              <div className="w-80 h-80 bg-gradient-to-br from-orange-200 via-red-200 to-pink-200 rounded-3xl mx-auto flex items-center justify-center shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <span className="text-8xl">🍽️</span>
               </div>
             </div>
           </div>
@@ -975,21 +1370,39 @@ export default function FoodDash() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 px-4 bg-gray-50">
+      <section id="contact" className="py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="container mx-auto">
-          <h3 className="text-4xl font-bold text-center text-gray-800 mb-12">Contact Us</h3>
+          <h3 className="text-5xl font-bold text-center text-gray-800 mb-16">
+            Contact{" "}
+            <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Us</span>
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: MapPin, title: "Address", info: "Food Street, City, Delhi 6" },
-              { icon: Phone, title: "Phone", info: "+91 8877002297" },
-              { icon: Mail, title: "Email", info: "hello@fooddash.com" },
+              {
+                icon: MapPin,
+                title: "Address",
+                info: "Food Street, City, Delhi 6",
+                color: "from-blue-500 to-blue-600",
+              },
+              {
+                icon: Phone,
+                title: "Phone",
+                info: "+91 8877002297",
+                color: "from-green-500 to-green-600",
+              },
+              { icon: Mail, title: "Email", info: "hello@fooddash.com", color: "from-purple-500 to-purple-600" },
             ].map((contact, index) => (
-              <Card key={index} className="text-center p-6">
-                <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <contact.icon className="w-8 h-8 text-white" />
+              <Card
+                key={index}
+                className="text-center p-8 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0 shadow-lg bg-white/90 backdrop-blur-sm"
+              >
+                <div
+                  className={`w-20 h-20 bg-gradient-to-r ${contact.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg`}
+                >
+                  <contact.icon className="w-10 h-10 text-white" />
                 </div>
-                <h4 className="text-xl font-bold mb-2">{contact.title}</h4>
-                <p className="text-gray-600">{contact.info}</p>
+                <h4 className="text-2xl font-bold mb-4 text-gray-800">{contact.title}</h4>
+                <p className="text-gray-600 text-lg">{contact.info}</p>
               </Card>
             ))}
           </div>
@@ -997,21 +1410,22 @@ export default function FoodDash() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 px-4">
+      <footer className="bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white py-12 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold">🍽️</span>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">🍽️</span>
                 </div>
                 <div>
-                  <h5 className="text-xl font-bold">FoodDash</h5>
+                  <h5 className="text-2xl font-bold">FoodDash</h5>
                   <p className="text-gray-400 text-sm">Delivering happiness</p>
                 </div>
               </div>
-              <p className="text-gray-400">
-                Delivering happiness, one meal at a time. Experience the best food delivery service in town.
+              <p className="text-gray-400 leading-relaxed">
+                Delivering happiness, one meal at a time. Experience the best food delivery service in town with our
+                trusted partners.
               </p>
             </div>
 
@@ -1021,11 +1435,11 @@ export default function FoodDash() {
               { title: "Follow Us", items: ["Facebook", "Twitter", "Instagram", "YouTube"] },
             ].map((section, index) => (
               <div key={index}>
-                <h6 className="font-bold mb-4">{section.title}</h6>
-                <ul className="space-y-2">
+                <h6 className="font-bold mb-6 text-lg">{section.title}</h6>
+                <ul className="space-y-3">
                   {section.items.map((item, itemIndex) => (
                     <li key={itemIndex}>
-                      <a href="#" className="text-gray-400 hover:text-orange-400">
+                      <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors duration-200">
                         {item}
                       </a>
                     </li>
@@ -1034,20 +1448,25 @@ export default function FoodDash() {
               </div>
             ))}
           </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p className="text-gray-400">&copy; 2024 FoodDash. All rights reserved. Made with ❤️ for food lovers.</p>
+          <div className="border-t border-gray-700 mt-12 pt-8 text-center">
+            <p className="text-gray-400">
+              &copy; 2024 FoodDash. All rights reserved. Made with ❤️ for food lovers everywhere.
+            </p>
           </div>
         </div>
       </footer>
 
       {/* Login Modal */}
       {isLoginOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md">
-            <CardContent className="p-6">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">Welcome Back!</h3>
-                <p className="text-gray-600">Login to your FoodDash account</p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white text-2xl">👋</span>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-800">Welcome Back!</h3>
+                <p className="text-gray-600 mt-2">Login to your FoodDash account</p>
               </div>
 
               <form
@@ -1056,39 +1475,47 @@ export default function FoodDash() {
                   const formData = new FormData(e.target as HTMLFormElement)
                   handleLogin(formData.get("email") as string, formData.get("password") as string)
                 }}
-                className="space-y-4"
+                className="space-y-6"
               >
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Email</label>
                   <input
                     type="email"
                     name="email"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your email"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Password</label>
                   <input
                     type="password"
                     name="password"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your password"
                   />
                 </div>
-                <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={() => setIsLoginOpen(false)} className="flex-1">
+                <div className="flex gap-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsLoginOpen(false)}
+                    className="flex-1 py-3 rounded-xl border-gray-300 hover:border-gray-400"
+                  >
                     Cancel
                   </Button>
-                  <Button type="submit" className="flex-1 bg-orange-500 hover:bg-orange-600">
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 py-3 rounded-xl shadow-lg"
+                  >
                     Login
                   </Button>
                 </div>
               </form>
 
-              <p className="text-center mt-4 text-sm text-gray-600">
+              <p className="text-center mt-6 text-sm text-gray-600">
                 Don't have an account?{" "}
                 <button
                   onClick={() => {
@@ -1107,12 +1534,15 @@ export default function FoodDash() {
 
       {/* Signup Modal */}
       {isSignupOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md">
-            <CardContent className="p-6">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">Join FoodDash!</h3>
-                <p className="text-gray-600">Create your account to start ordering</p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white text-2xl">🚀</span>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-800">Join FoodDash!</h3>
+                <p className="text-gray-600 mt-2">Create your account to start ordering</p>
               </div>
 
               <form
@@ -1126,66 +1556,74 @@ export default function FoodDash() {
                     formData.get("password") as string,
                   )
                 }}
-                className="space-y-4"
+                className="space-y-6"
               >
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Full Name</label>
                   <input
                     type="text"
                     name="name"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your full name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Email</label>
                   <input
                     type="email"
                     name="email"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your email"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Phone Number</label>
                   <input
                     type="tel"
                     name="phone"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your phone number"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Password</label>
                   <input
                     type="password"
                     name="password"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Create a password"
                   />
                 </div>
-                <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={() => setIsSignupOpen(false)} className="flex-1">
+                <div className="flex gap-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsSignupOpen(false)}
+                    className="flex-1 py-3 rounded-xl border-gray-300 hover:border-gray-400"
+                  >
                     Cancel
                   </Button>
-                  <Button type="submit" className="flex-1 bg-orange-500 hover:bg-orange-600">
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 py-3 rounded-xl shadow-lg"
+                  >
                     Sign Up
                   </Button>
                 </div>
               </form>
 
-              <p className="text-center mt-4 text-sm text-gray-600">
+              <p className="text-center mt-6 text-sm text-gray-600">
                 Already have an account?{" "}
                 <button
                   onClick={() => {
                     setIsSignupOpen(false)
                     setIsLoginOpen(true)
                   }}
-                  className="text-orange-500 hover:text-orange-600 font-medium"
+                  className="text-blue-500 hover:text-blue-600 font-medium"
                 >
                   Login here
                 </button>
@@ -1197,61 +1635,82 @@ export default function FoodDash() {
 
       {/* Order Tracking Modal */}
       {isOrderTrackingOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-6">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-800">Order Tracking</h3>
-                  <p className="text-gray-600">Track your orders</p>
+                  <h3 className="text-3xl font-bold text-gray-800">Order Tracking</h3>
+                  <p className="text-gray-600 mt-2">Track your orders and delivery status</p>
                 </div>
-                <Button variant="ghost" onClick={() => setIsOrderTrackingOpen(false)} className="w-8 h-8 p-0">
-                  <X className="w-4 h-4" />
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsOrderTrackingOpen(false)}
+                  className="w-10 h-10 p-0 hover:bg-gray-100 rounded-full"
+                >
+                  <X className="w-5 h-5" />
                 </Button>
               </div>
 
               {orders.length === 0 ? (
-                <div className="text-center py-12">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-4xl">📦</span>
+                <div className="text-center py-16">
+                  <div className="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-6xl">📦</span>
                   </div>
-                  <h4 className="text-xl font-semibold text-gray-800 mb-2">No Orders Yet</h4>
-                  <p className="text-gray-600">Start ordering to see your order history here!</p>
+                  <h4 className="text-2xl font-semibold text-gray-800 mb-4">No Orders Yet</h4>
+                  <p className="text-gray-600 mb-8">Start ordering to see your order history here!</p>
+                  <Button
+                    onClick={() => {
+                      setIsOrderTrackingOpen(false)
+                      scrollToMenu()
+                    }}
+                    className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 px-8 py-3 rounded-xl"
+                  >
+                    Browse Menu
+                  </Button>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {orders.map((order) => (
-                    <Card key={order.id} className="border-2 border-gray-100">
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between mb-4">
+                    <Card
+                      key={order.id}
+                      className="border-2 border-gray-100 hover:shadow-lg transition-all duration-200"
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-6">
                           <div>
-                            <h4 className="text-lg font-bold text-gray-800">Order #{order.id}</h4>
-                            <p className="text-sm text-gray-500">{new Date(order.orderTime).toLocaleString()}</p>
+                            <h4 className="text-xl font-bold text-gray-800">Order #{order.id}</h4>
+                            <p className="text-sm text-gray-500 mt-1">{new Date(order.orderTime).toLocaleString()}</p>
                           </div>
                           <div className="flex flex-col items-end gap-2">
-                            <Badge className="bg-green-500">{order.status.toUpperCase()}</Badge>
+                            <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1">
+                              {order.status.toUpperCase()}
+                            </Badge>
                             {order.paymentMethod && (
-                              <Badge variant="outline" className="text-xs">
+                              <Badge variant="outline" className="text-xs border-blue-200 text-blue-600">
                                 {order.paymentMethod.toUpperCase()}
                               </Badge>
                             )}
                           </div>
                         </div>
 
-                        <div className="mb-4">
-                          <p className="text-sm text-gray-600 mb-2">Items:</p>
+                        <div className="mb-6">
+                          <p className="text-sm font-medium text-gray-700 mb-3">Items Ordered:</p>
                           <div className="flex flex-wrap gap-2">
                             {order.items.map((item, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
+                              <Badge key={index} variant="outline" className="text-sm px-3 py-1">
                                 {item}
                               </Badge>
                             ))}
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold text-gray-800">Total: ₹{order.total}</span>
-                          <span className="text-sm text-gray-500">Est. {order.estimatedTime}</span>
+                        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                          <span className="text-lg font-semibold text-gray-800">Total: ₹{order.total}</span>
+                          <span className="text-sm text-gray-500 flex items-center">
+                            <Clock className="w-4 h-4 mr-1" />
+                            Est. {order.estimatedTime}
+                          </span>
                         </div>
                       </CardContent>
                     </Card>
@@ -1265,28 +1724,36 @@ export default function FoodDash() {
 
       {/* Stores Modal */}
       {isStoresOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-7xl max-h-[90vh] overflow-y-auto shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="text-3xl font-bold text-orange-500">Our Partner Restaurants</h3>
-                  <p className="text-gray-600 mt-2">Discover amazing restaurants we've partnered with</p>
+                  <h3 className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                    Our Partner Restaurants
+                  </h3>
+                  <p className="text-gray-600 mt-2 text-lg">Discover amazing restaurants we've partnered with</p>
                 </div>
-                <Button variant="ghost" onClick={() => setIsStoresOpen(false)} className="w-10 h-10 p-0">
-                  <X className="w-5 h-5" />
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsStoresOpen(false)}
+                  className="w-12 h-12 p-0 hover:bg-gray-100 rounded-full"
+                >
+                  <X className="w-6 h-6" />
                 </Button>
               </div>
 
               {/* Store Category Filter */}
-              <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
                 {storeCategories.map((category) => (
                   <Button
                     key={category}
                     variant={activeStoreFilter === category ? "default" : "outline"}
                     onClick={() => setActiveStoreFilter(category)}
-                    className={`capitalize ${
-                      activeStoreFilter === category ? "bg-orange-500 hover:bg-orange-600" : ""
+                    className={`capitalize px-6 py-3 rounded-full font-medium transform hover:scale-105 transition-all duration-200 ${
+                      activeStoreFilter === category
+                        ? "bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg"
+                        : "border-orange-200 hover:border-orange-300 hover:bg-orange-50"
                     }`}
                   >
                     {category}
@@ -1295,67 +1762,80 @@ export default function FoodDash() {
               </div>
 
               {/* Partner Stores Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredStores.map((store) => (
-                  <Card key={store.id} className="hover:shadow-lg">
+                  <Card
+                    key={store.id}
+                    className="hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0 shadow-lg bg-white/90 backdrop-blur-sm overflow-hidden"
+                  >
                     <div className="relative">
-                      <img
-                        src={store.image || "/placeholder.svg"}
-                        alt={store.name}
-                        className="w-full h-48 object-cover"
-                      />
+                      <div className="h-48 bg-gradient-to-br from-orange-200 via-red-200 to-pink-200 flex items-center justify-center">
+                        <span className="text-6xl">🏪</span>
+                      </div>
                       <div className="absolute top-4 right-4 flex flex-col gap-2">
-                        <Badge className="bg-green-500">
+                        <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg">
                           <Star className="w-3 h-3 mr-1" />
                           {store.rating}
                         </Badge>
-                        {store.isVeg && <Badge className="bg-green-600">Pure Veg</Badge>}
+                        {store.isVeg && (
+                          <Badge className="bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg">
+                            🌱 Pure Veg
+                          </Badge>
+                        )}
                       </div>
                       <div className="absolute top-4 left-4">
-                        <Badge className="bg-blue-500 text-xs">Est. {store.established}</Badge>
+                        <Badge className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs shadow-lg">
+                          Est. {store.established}
+                        </Badge>
                       </div>
                     </div>
 
                     <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-start justify-between mb-4">
                         <div>
                           <h4 className="text-xl font-bold text-gray-800">{store.name}</h4>
-                          <p className="text-sm text-gray-500">{store.location}</p>
+                          <p className="text-sm text-gray-500 flex items-center mt-1">
+                            <MapPin className="w-3 h-3 mr-1" />
+                            {store.location}
+                          </p>
                         </div>
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs border-orange-200 text-orange-600">
                           {store.cuisine}
                         </Badge>
                       </div>
 
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-3 py-2 rounded-full">
                           <Clock className="w-4 h-4 mr-1" />
                           {store.deliveryTime}
                         </div>
-                        <div className="text-sm text-gray-600">{store.totalOrders} orders</div>
+                        <div className="text-sm text-gray-600 font-medium">{store.totalOrders} orders</div>
                       </div>
 
-                      <div className="mb-4">
-                        <p className="text-sm font-medium text-gray-700">Specialties:</p>
-                        <div className="flex flex-wrap gap-1">
+                      <div className="mb-6">
+                        <p className="text-sm font-medium text-gray-700 mb-3">Specialties:</p>
+                        <div className="flex flex-wrap gap-2">
                           {store.specialties.slice(0, 3).map((specialty, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
+                            <Badge key={index} variant="outline" className="text-xs border-gray-200">
                               {specialty}
                             </Badge>
                           ))}
                         </div>
                       </div>
 
-                      <div className="mb-4 p-3 bg-orange-50 rounded-lg border border-orange-200">
-                        <p className="text-sm font-medium text-orange-700 mb-1">Special Offer</p>
-                        <p className="text-xs text-orange-600">{store.offers}</p>
+                      <div className="mb-6 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200">
+                        <p className="text-sm font-medium text-orange-700 mb-1 flex items-center">
+                          <Award className="w-4 h-4 mr-1" />
+                          Special Offer
+                        </p>
+                        <p className="text-sm text-orange-600">{store.offers}</p>
                       </div>
 
                       <Button
-                        className="w-full bg-orange-500 hover:bg-orange-600"
+                        className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                         onClick={() => {
                           setIsStoresOpen(false)
-                          document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" })
+                          scrollToMenu()
                         }}
                       >
                         View Menu
@@ -1366,11 +1846,11 @@ export default function FoodDash() {
               </div>
 
               {filteredStores.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-4xl">🏪</span>
+                <div className="text-center py-16">
+                  <div className="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-6xl">🏪</span>
                   </div>
-                  <h4 className="text-xl font-semibold text-gray-800 mb-2">No Restaurants Found</h4>
+                  <h4 className="text-2xl font-semibold text-gray-800 mb-4">No Restaurants Found</h4>
                   <p className="text-gray-600">Try selecting a different cuisine category.</p>
                 </div>
               )}
@@ -1379,14 +1859,153 @@ export default function FoodDash() {
         </div>
       )}
 
+      {/* Delivery Partners Modal */}
+      {isDeliveryPartnersOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-7xl max-h-[90vh] overflow-y-auto shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                    Our Delivery Partners
+                  </h3>
+                  <p className="text-gray-600 mt-2 text-lg">Meet our trusted delivery heroes</p>
+                </div>
+                <Button
+                  variant="ghost"
+                  onClick={() => setIsDeliveryPartnersOpen(false)}
+                  className="w-12 h-12 p-0 hover:bg-gray-100 rounded-full"
+                >
+                  <X className="w-6 h-6" />
+                </Button>
+              </div>
+
+              {/* Partner Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                {[
+                  { number: "50+", label: "Active Partners", icon: Users },
+                  { number: "99.8%", label: "On-Time Delivery", icon: Clock },
+                  { number: "4.9★", label: "Average Rating", icon: Star },
+                  { number: "24/7", label: "Service Available", icon: Shield },
+                ].map((stat, index) => (
+                  <div
+                    key={index}
+                    className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  >
+                    <stat.icon className="w-8 h-8 text-blue-500 mx-auto mb-3" />
+                    <div className="text-3xl font-bold text-blue-600 mb-2">{stat.number}</div>
+                    <div className="text-gray-600 font-medium">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Partners Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {deliveryPartners.map((partner) => (
+                  <Card
+                    key={partner.id}
+                    className="hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0 shadow-lg bg-white/90 backdrop-blur-sm overflow-hidden"
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-3xl shadow-lg">
+                            {partner.avatar}
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-bold text-gray-800">{partner.name}</h4>
+                            <p className="text-sm text-gray-500 flex items-center">
+                              <MapPin className="w-3 h-3 mr-1" />
+                              {partner.location}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-2">
+                          <Badge
+                            className={`${
+                              partner.status === "online"
+                                ? "bg-gradient-to-r from-green-500 to-emerald-500"
+                                : "bg-gradient-to-r from-yellow-500 to-orange-500"
+                            } text-white shadow-lg`}
+                          >
+                            {partner.status === "online" ? "🟢 Online" : "🟡 Busy"}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs border-blue-200 text-blue-600">
+                            {partner.badge}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+                          <div className="text-xl font-bold text-blue-600">{partner.rating}</div>
+                          <div className="text-xs text-gray-600">Rating</div>
+                        </div>
+                        <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
+                          <div className="text-xl font-bold text-green-600">{partner.deliveries}</div>
+                          <div className="text-xs text-gray-600">Deliveries</div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 mb-6">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Experience:</span>
+                          <span className="font-medium">{partner.experience}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Vehicle:</span>
+                          <span className="font-medium">{partner.vehicle}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Specialty:</span>
+                          <span className="font-medium text-blue-600">{partner.speciality}</span>
+                        </div>
+                      </div>
+
+                      <div className="mb-6">
+                        <p className="text-sm text-gray-600 mb-3">Languages:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {partner.languages.map((lang, index) => (
+                            <Badge key={index} variant="outline" className="text-xs border-gray-200">
+                              {lang}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-center pt-4 border-t border-gray-100">
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < Math.floor(partner.rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                              }`}
+                            />
+                          ))}
+                          <span className="text-sm text-gray-600 ml-2">({partner.rating})</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Review Modal */}
       {isReviewModalOpen && selectedItemForReview && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md">
-            <CardContent className="p-6">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">Write a Review</h3>
-                <p className="text-gray-600">Share your experience with {selectedItemForReview.name}</p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white text-2xl">⭐</span>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-800">Write a Review</h3>
+                <p className="text-gray-600 mt-2">Share your experience with {selectedItemForReview.name}</p>
               </div>
 
               <form
@@ -1397,14 +2016,14 @@ export default function FoodDash() {
                   const comment = formData.get("comment") as string
                   handleReviewSubmit(rating, comment)
                 }}
-                className="space-y-4"
+                className="space-y-6"
               >
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Rating</label>
                   <select
                     name="rating"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200"
                   >
                     <option value="">Select Rating</option>
                     <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
@@ -1415,16 +2034,16 @@ export default function FoodDash() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Comment</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Comment</label>
                   <textarea
                     name="comment"
                     required
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 resize-none"
                     placeholder="Tell us about your experience..."
                   />
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                   <Button
                     type="button"
                     variant="outline"
@@ -1432,11 +2051,14 @@ export default function FoodDash() {
                       setIsReviewModalOpen(false)
                       setSelectedItemForReview(null)
                     }}
-                    className="flex-1"
+                    className="flex-1 py-3 rounded-xl border-gray-300 hover:border-gray-400"
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" className="flex-1 bg-orange-500 hover:bg-orange-600">
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 py-3 rounded-xl shadow-lg"
+                  >
                     Submit Review
                   </Button>
                 </div>
@@ -1448,66 +2070,79 @@ export default function FoodDash() {
 
       {/* Payment Modal */}
       {isPaymentOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-lg">
-            <CardContent className="p-6">
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">Complete Payment</h3>
-                <p className="text-gray-600">Choose your preferred payment method</p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white text-2xl">💳</span>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-800">Complete Payment</h3>
+                <p className="text-gray-600 mt-2">Choose your preferred payment method</p>
               </div>
 
               {/* Order Summary */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                <h4 className="font-semibold text-gray-800 mb-2">Order Summary</h4>
-                <div className="space-y-2 text-sm">
+              <div className="mb-8 p-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl">
+                <h4 className="font-semibold text-gray-800 mb-4 text-lg">Order Summary</h4>
+                <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span>Subtotal:</span>
-                    <span>₹{getTotalPrice()}</span>
+                    <span className="font-medium">₹{getTotalPrice()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Delivery Fee:</span>
-                    <span>₹20</span>
+                    <span className="font-medium">₹20</span>
                   </div>
-                  <div className="flex justify-between font-bold text-lg border-t pt-2">
+                  <div className="flex justify-between font-bold text-xl border-t pt-3">
                     <span>Total:</span>
-                    <span className="text-orange-500">₹{getTotalPrice() + 20}</span>
+                    <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+                      ₹{getTotalPrice() + 20}
+                    </span>
                   </div>
                 </div>
               </div>
 
               {/* Payment Methods */}
-              <div className="space-y-3 mb-6">
-                <h4 className="font-semibold text-gray-800">Select Payment Method</h4>
+              <div className="space-y-4 mb-8">
+                <h4 className="font-semibold text-gray-800 text-lg">Select Payment Method</h4>
                 {paymentMethods.map((method) => (
                   <div
                     key={method.id}
-                    className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
+                    className={`p-4 border-2 rounded-2xl cursor-pointer transition-all duration-300 ${
                       selectedPaymentMethod === method.id
-                        ? "border-orange-500 bg-orange-50"
-                        : "border-gray-200 hover:border-gray-300"
+                        ? "border-orange-500 bg-gradient-to-r from-orange-50 to-red-50 shadow-lg"
+                        : "border-gray-200 hover:border-gray-300 hover:shadow-md"
                     }`}
                     onClick={() => setSelectedPaymentMethod(method.id)}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <method.icon className="w-6 h-6 text-gray-600" />
+                      <div className="flex items-center space-x-4">
+                        <div
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                            selectedPaymentMethod === method.id
+                              ? "bg-gradient-to-r from-orange-500 to-red-500 text-white"
+                              : "bg-gray-100 text-gray-600"
+                          }`}
+                        >
+                          <method.icon className="w-6 h-6" />
+                        </div>
                         <div>
                           <p className="font-medium text-gray-800">{method.name}</p>
                           <p className="text-sm text-gray-500">{method.description}</p>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        {method.popular && <Badge className="bg-green-500 text-xs">Popular</Badge>}
+                      <div className="flex items-center space-x-3">
+                        {method.popular && (
+                          <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs">
+                            Popular
+                          </Badge>
+                        )}
                         <div
-                          className={`w-4 h-4 rounded-full border-2 ${
+                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                             selectedPaymentMethod === method.id ? "border-orange-500 bg-orange-500" : "border-gray-300"
                           }`}
                         >
-                          {selectedPaymentMethod === method.id && (
-                            <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                              <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-                            </div>
-                          )}
+                          {selectedPaymentMethod === method.id && <div className="w-3 h-3 rounded-full bg-white"></div>}
                         </div>
                       </div>
                     </div>
@@ -1517,15 +2152,15 @@ export default function FoodDash() {
 
               {/* Payment Form */}
               {selectedPaymentMethod && (
-                <div className="mb-6">
+                <div className="mb-8">
                   {selectedPaymentMethod === "card" && (
-                    <form className="space-y-4">
+                    <div className="space-y-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
                         <input
                           type="text"
                           placeholder="1234 5678 9012 3456"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
@@ -1534,7 +2169,7 @@ export default function FoodDash() {
                           <input
                             type="text"
                             placeholder="MM/YY"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                           />
                         </div>
                         <div>
@@ -1542,7 +2177,7 @@ export default function FoodDash() {
                           <input
                             type="text"
                             placeholder="123"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                           />
                         </div>
                       </div>
@@ -1551,56 +2186,60 @@ export default function FoodDash() {
                         <input
                           type="text"
                           placeholder="John Doe"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         />
                       </div>
-                    </form>
+                    </div>
                   )}
 
                   {selectedPaymentMethod === "upi" && (
-                    <form className="space-y-4">
+                    <div className="space-y-4 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">UPI ID</label>
                         <input
                           type="text"
                           placeholder="yourname@paytm"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
                         />
                       </div>
-                      <div className="p-4 bg-blue-50 rounded-lg">
-                        <p className="text-sm text-blue-700">
+                      <div className="p-4 bg-purple-100 rounded-xl">
+                        <p className="text-sm text-purple-700 flex items-center">
+                          <Smartphone className="w-4 h-4 mr-2" />
                           You will be redirected to your UPI app to complete the payment
                         </p>
                       </div>
-                    </form>
+                    </div>
                   )}
 
                   {selectedPaymentMethod === "wallet" && (
-                    <form className="space-y-4">
+                    <div className="space-y-4 p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Select Wallet</label>
-                        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        <select className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200">
                           <option value="">Choose wallet</option>
                           <option value="paytm">Paytm</option>
                           <option value="amazonpay">Amazon Pay</option>
                           <option value="mobikwik">Mobikwik</option>
                         </select>
                       </div>
-                      <div className="p-4 bg-purple-50 rounded-lg">
-                        <p className="text-sm text-purple-700">
+                      <div className="p-4 bg-green-100 rounded-xl">
+                        <p className="text-sm text-green-700 flex items-center">
+                          <Wallet className="w-4 h-4 mr-2" />
                           You will be redirected to your wallet app to complete the payment
                         </p>
                       </div>
-                    </form>
+                    </div>
                   )}
 
                   {selectedPaymentMethod === "cod" && (
-                    <div className="p-4 bg-green-50 rounded-lg">
-                      <p className="text-sm text-green-700 mb-2">
-                        <strong>Cash on Delivery</strong>
-                      </p>
-                      <p className="text-sm text-green-600">
-                        Pay ₹{getTotalPrice() + 20} in cash when your order arrives. Please keep exact change ready.
+                    <div className="p-6 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl">
+                      <div className="flex items-center mb-3">
+                        <MapPin className="w-5 h-5 text-yellow-600 mr-2" />
+                        <p className="text-lg font-medium text-yellow-800">Cash on Delivery</p>
+                      </div>
+                      <p className="text-sm text-yellow-700">
+                        Pay ₹{getTotalPrice() + 20} in cash when your order arrives. Please keep exact change ready for
+                        faster delivery.
                       </p>
                     </div>
                   )}
@@ -1608,7 +2247,7 @@ export default function FoodDash() {
               )}
 
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 <Button
                   type="button"
                   variant="outline"
@@ -1616,7 +2255,7 @@ export default function FoodDash() {
                     setIsPaymentOpen(false)
                     setSelectedPaymentMethod("")
                   }}
-                  className="flex-1"
+                  className="flex-1 py-4 rounded-xl border-gray-300 hover:border-gray-400"
                   disabled={isProcessingPayment}
                 >
                   Cancel
@@ -1624,23 +2263,24 @@ export default function FoodDash() {
                 <Button
                   onClick={() => processPayment({})}
                   disabled={!selectedPaymentMethod || isProcessingPayment}
-                  className="flex-1 bg-orange-500 hover:bg-orange-600"
+                  className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 py-4 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
                 >
                   {isProcessingPayment ? (
                     <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       <span>Processing...</span>
                     </div>
                   ) : (
-                    `Pay ₹${getTotalPrice() + 20}`
+                    `💳 Pay ₹${getTotalPrice() + 20}`
                   )}
                 </Button>
               </div>
 
               {/* Security Notice */}
-              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                <p className="text-xs text-gray-600 text-center">
-                  🔒 Your payment information is secure and encrypted. We never store your card details.
+              <div className="mt-6 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl">
+                <p className="text-xs text-gray-600 text-center flex items-center justify-center">
+                  <Shield className="w-4 h-4 mr-2" />
+                  Your payment information is secure and encrypted. We never store your card details.
                 </p>
               </div>
             </CardContent>
