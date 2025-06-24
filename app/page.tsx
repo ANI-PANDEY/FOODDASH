@@ -32,6 +32,11 @@ export default function FoodDash() {
   const [user, setUser] = useState<{ name: string; email: string; phone: string } | null>(null)
   const [orders, setOrders] = useState<any[]>([])
   const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false)
+  const [isStoresOpen, setIsStoresOpen] = useState(false)
+  const [activeStoreFilter, setActiveStoreFilter] = useState("all")
+  const [reviews, setReviews] = useState<any[]>([])
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+  const [selectedItemForReview, setSelectedItemForReview] = useState<FoodItem | null>(null)
 
   const foodItems: FoodItem[] = [
     // Pizza Items
@@ -322,6 +327,100 @@ export default function FoodDash() {
     },
   ]
 
+  const partnerStores = [
+    {
+      id: 1,
+      name: "Spice Garden",
+      cuisine: "Indian",
+      rating: 4.8,
+      deliveryTime: "25-30 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Butter Chicken", "Biryani", "Dal Tadka"],
+      offers: "20% OFF on orders above ₹300",
+      isVeg: false,
+      location: "Connaught Place",
+      established: "2018",
+      totalOrders: "10k+",
+    },
+    {
+      id: 2,
+      name: "Pizza Palace",
+      cuisine: "Italian",
+      rating: 4.7,
+      deliveryTime: "20-25 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Margherita Pizza", "Pepperoni Pizza", "Garlic Bread"],
+      offers: "Buy 1 Get 1 Free on Large Pizzas",
+      isVeg: false,
+      location: "Khan Market",
+      established: "2020",
+      totalOrders: "8k+",
+    },
+    {
+      id: 3,
+      name: "Dragon Wok",
+      cuisine: "Chinese",
+      rating: 4.6,
+      deliveryTime: "15-20 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Hakka Noodles", "Fried Rice", "Manchurian"],
+      offers: "Free delivery on orders above ₹200",
+      isVeg: false,
+      location: "Lajpat Nagar",
+      established: "2019",
+      totalOrders: "12k+",
+    },
+    {
+      id: 4,
+      name: "Burger Junction",
+      cuisine: "American",
+      rating: 4.5,
+      deliveryTime: "15-20 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Chicken Burger", "Cheese Burger", "Fries"],
+      offers: "₹50 OFF on first order",
+      isVeg: false,
+      location: "CP Metro Station",
+      established: "2021",
+      totalOrders: "6k+",
+    },
+    {
+      id: 5,
+      name: "South Delights",
+      cuisine: "South Indian",
+      rating: 4.9,
+      deliveryTime: "20-25 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Masala Dosa", "Idli Sambar", "Uttapam"],
+      offers: "Combo meals starting at ₹99",
+      isVeg: true,
+      location: "Karol Bagh",
+      established: "2017",
+      totalOrders: "15k+",
+    },
+    {
+      id: 6,
+      name: "Sweet Treats",
+      cuisine: "Desserts",
+      rating: 4.8,
+      deliveryTime: "10-15 min",
+      image: "/placeholder.svg?height=200&width=300",
+      specialties: ["Gulab Jamun", "Chocolate Brownie", "Ice Cream"],
+      offers: "Buy 2 Get 1 Free on desserts",
+      isVeg: true,
+      location: "India Gate",
+      established: "2019",
+      totalOrders: "9k+",
+    },
+  ]
+
+  const storeCategories = ["all", "indian", "italian", "chinese", "american", "south indian", "desserts"]
+
+  const filteredStores =
+    activeStoreFilter === "all"
+      ? partnerStores
+      : partnerStores.filter((store) => store.cuisine.toLowerCase().includes(activeStoreFilter.toLowerCase()))
+
   const categories = [
     { id: "all", name: "All Items" },
     { id: "pizza", name: "Pizza" },
@@ -438,6 +537,36 @@ export default function FoodDash() {
     alert(`Order placed successfully! Order ID: ${orderId}`)
   }
 
+  const handleReviewSubmit = (rating: number, comment: string) => {
+    if (!user || !selectedItemForReview) return
+
+    const newReview = {
+      id: Date.now(),
+      itemId: selectedItemForReview.id,
+      itemName: selectedItemForReview.name,
+      userName: user.name,
+      rating: rating,
+      comment: comment,
+      date: new Date().toISOString(),
+    }
+
+    setReviews((prev) => [newReview, ...prev])
+    setIsReviewModalOpen(false)
+    setSelectedItemForReview(null)
+    alert("Thank you for your review!")
+  }
+
+  const getItemReviews = (itemId: number) => {
+    return reviews.filter((review) => review.itemId === itemId)
+  }
+
+  const getAverageRating = (itemId: number) => {
+    const itemReviews = getItemReviews(itemId)
+    if (itemReviews.length === 0) return 0
+    const sum = itemReviews.reduce((acc, review) => acc + review.rating, 0)
+    return (sum / itemReviews.length).toFixed(1)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -456,11 +585,19 @@ export default function FoodDash() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              {["Home", "Menu", "About", "Contact"].map((item) => (
+              {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
                 <a
                   key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="text-gray-700 hover:text-orange-500 font-medium"
+                  href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
+                  onClick={
+                    item === "Stores"
+                      ? (e) => {
+                          e.preventDefault()
+                          setIsStoresOpen(true)
+                        }
+                      : undefined
+                  }
+                  className="text-gray-700 hover:text-orange-500 font-medium cursor-pointer"
                 >
                   {item}
                 </a>
@@ -511,11 +648,19 @@ export default function FoodDash() {
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 border-t pt-4">
               <div className="flex flex-col space-y-3">
-                {["Home", "Menu", "About", "Contact"].map((item) => (
+                {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
                   <a
                     key={item}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-gray-700 hover:text-orange-500 py-2 px-4 rounded hover:bg-gray-100"
+                    href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
+                    onClick={
+                      item === "Stores"
+                        ? (e) => {
+                            e.preventDefault()
+                            setIsStoresOpen(true)
+                          }
+                        : undefined
+                    }
+                    className="text-gray-700 hover:text-orange-500 py-2 px-4 rounded hover:bg-gray-100 cursor-pointer"
                   >
                     {item}
                   </a>
@@ -632,6 +777,52 @@ export default function FoodDash() {
                       Add to Cart
                     </Button>
                   </div>
+
+                  <div className="flex items-center justify-between mt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        if (!user) {
+                          setIsLoginOpen(true)
+                          return
+                        }
+                        setSelectedItemForReview(item)
+                        setIsReviewModalOpen(true)
+                      }}
+                      className="text-xs"
+                    >
+                      Write Review
+                    </Button>
+                    <div className="text-xs text-gray-500">{getItemReviews(item.id).length} reviews</div>
+                  </div>
+
+                  {/* Show recent reviews for this item */}
+                  {getItemReviews(item.id).length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <p className="text-sm font-medium text-gray-700 mb-2">Recent Reviews:</p>
+                      {getItemReviews(item.id)
+                        .slice(0, 2)
+                        .map((review) => (
+                          <div key={review.id} className="mb-2 p-2 bg-gray-50 rounded text-xs">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-medium">{review.userName}</span>
+                              <div className="flex">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`w-3 h-3 ${
+                                      i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                            <p className="text-gray-600">{review.comment}</p>
+                          </div>
+                        ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -987,6 +1178,189 @@ export default function FoodDash() {
                   ))}
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Stores Modal */}
+      {isStoresOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h3 className="text-3xl font-bold text-orange-500">Our Partner Restaurants</h3>
+                  <p className="text-gray-600 mt-2">Discover amazing restaurants we've partnered with</p>
+                </div>
+                <Button variant="ghost" onClick={() => setIsStoresOpen(false)} className="w-10 h-10 p-0">
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              {/* Store Category Filter */}
+              <div className="flex flex-wrap justify-center gap-3 mb-8">
+                {storeCategories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={activeStoreFilter === category ? "default" : "outline"}
+                    onClick={() => setActiveStoreFilter(category)}
+                    className={`capitalize ${
+                      activeStoreFilter === category ? "bg-orange-500 hover:bg-orange-600" : ""
+                    }`}
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+
+              {/* Partner Stores Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredStores.map((store) => (
+                  <Card key={store.id} className="hover:shadow-lg">
+                    <div className="relative">
+                      <img
+                        src={store.image || "/placeholder.svg"}
+                        alt={store.name}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="absolute top-4 right-4 flex flex-col gap-2">
+                        <Badge className="bg-green-500">
+                          <Star className="w-3 h-3 mr-1" />
+                          {store.rating}
+                        </Badge>
+                        {store.isVeg && <Badge className="bg-green-600">Pure Veg</Badge>}
+                      </div>
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-blue-500 text-xs">Est. {store.established}</Badge>
+                      </div>
+                    </div>
+
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h4 className="text-xl font-bold text-gray-800">{store.name}</h4>
+                          <p className="text-sm text-gray-500">{store.location}</p>
+                        </div>
+                        <Badge variant="outline" className="text-xs">
+                          {store.cuisine}
+                        </Badge>
+                      </div>
+
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {store.deliveryTime}
+                        </div>
+                        <div className="text-sm text-gray-600">{store.totalOrders} orders</div>
+                      </div>
+
+                      <div className="mb-4">
+                        <p className="text-sm font-medium text-gray-700">Specialties:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {store.specialties.slice(0, 3).map((specialty, index) => (
+                            <Badge key={index} variant="outline" className="text-xs">
+                              {specialty}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mb-4 p-3 bg-orange-50 rounded-lg border border-orange-200">
+                        <p className="text-sm font-medium text-orange-700 mb-1">Special Offer</p>
+                        <p className="text-xs text-orange-600">{store.offers}</p>
+                      </div>
+
+                      <Button
+                        className="w-full bg-orange-500 hover:bg-orange-600"
+                        onClick={() => {
+                          setIsStoresOpen(false)
+                          document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" })
+                        }}
+                      >
+                        View Menu
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {filteredStores.length === 0 && (
+                <div className="text-center py-12">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-4xl">🏪</span>
+                  </div>
+                  <h4 className="text-xl font-semibold text-gray-800 mb-2">No Restaurants Found</h4>
+                  <p className="text-gray-600">Try selecting a different cuisine category.</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Review Modal */}
+      {isReviewModalOpen && selectedItemForReview && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardContent className="p-6">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">Write a Review</h3>
+                <p className="text-gray-600">Share your experience with {selectedItemForReview.name}</p>
+              </div>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const formData = new FormData(e.target as HTMLFormElement)
+                  const rating = Number.parseInt(formData.get("rating") as string)
+                  const comment = formData.get("comment") as string
+                  handleReviewSubmit(rating, comment)
+                }}
+                className="space-y-4"
+              >
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                  <select
+                    name="rating"
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  >
+                    <option value="">Select Rating</option>
+                    <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                    <option value="4">⭐⭐⭐⭐ Very Good</option>
+                    <option value="3">⭐⭐⭐ Good</option>
+                    <option value="2">⭐⭐ Fair</option>
+                    <option value="1">⭐ Poor</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Comment</label>
+                  <textarea
+                    name="comment"
+                    required
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    placeholder="Tell us about your experience..."
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setIsReviewModalOpen(false)
+                      setSelectedItemForReview(null)
+                    }}
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit" className="flex-1 bg-orange-500 hover:bg-orange-600">
+                    Submit Review
+                  </Button>
+                </div>
+              </form>
             </CardContent>
           </Card>
         </div>
