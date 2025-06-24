@@ -4,7 +4,22 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Star, Clock, MapPin, Phone, Mail, Menu, X, Plus, Minus, Heart } from "lucide-react"
+import {
+  ShoppingCart,
+  Star,
+  Clock,
+  MapPin,
+  Phone,
+  Mail,
+  Menu,
+  X,
+  Plus,
+  Minus,
+  Heart,
+  CreditCard,
+  Wallet,
+  Smartphone,
+} from "lucide-react"
 
 interface FoodItem {
   id: number
@@ -37,6 +52,9 @@ export default function FoodDash() {
   const [reviews, setReviews] = useState<any[]>([])
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
   const [selectedItemForReview, setSelectedItemForReview] = useState<FoodItem | null>(null)
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
 
   const foodItems: FoodItem[] = [
     // Pizza Items
@@ -434,6 +452,37 @@ export default function FoodDash() {
     { id: "street-food", name: "Street Food" },
   ]
 
+  const paymentMethods = [
+    {
+      id: "card",
+      name: "Credit/Debit Card",
+      icon: CreditCard,
+      description: "Visa, Mastercard, RuPay",
+      popular: true,
+    },
+    {
+      id: "upi",
+      name: "UPI Payment",
+      icon: Smartphone,
+      description: "PhonePe, Google Pay, Paytm",
+      popular: true,
+    },
+    {
+      id: "wallet",
+      name: "Digital Wallet",
+      icon: Wallet,
+      description: "Paytm, Amazon Pay, Mobikwik",
+      popular: false,
+    },
+    {
+      id: "cod",
+      name: "Cash on Delivery",
+      icon: MapPin,
+      description: "Pay when food arrives",
+      popular: false,
+    },
+  ]
+
   const filteredItems =
     activeCategory === "all" ? foodItems : foodItems.filter((item) => item.category === activeCategory)
 
@@ -521,6 +570,14 @@ export default function FoodDash() {
       setIsLoginOpen(true)
       return
     }
+    setIsPaymentOpen(true)
+  }
+
+  const processPayment = async (paymentDetails: any) => {
+    setIsProcessingPayment(true)
+
+    // Simulate payment processing
+    await new Promise((resolve) => setTimeout(resolve, 3000))
 
     const orderId = generateOrderId()
     const newOrder = {
@@ -530,11 +587,17 @@ export default function FoodDash() {
       status: "confirmed",
       orderTime: new Date().toISOString(),
       estimatedTime: "25-30 min",
+      paymentMethod: selectedPaymentMethod,
+      paymentStatus: "completed",
     }
 
     setOrders((prev) => [newOrder, ...prev])
     setCart([])
-    alert(`Order placed successfully! Order ID: ${orderId}`)
+    setIsPaymentOpen(false)
+    setIsProcessingPayment(false)
+    setSelectedPaymentMethod("")
+
+    alert(`Payment successful! Order placed with ID: ${orderId}`)
   }
 
   const handleReviewSubmit = (rating: number, comment: string) => {
@@ -573,13 +636,23 @@ export default function FoodDash() {
       <header className="bg-white shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
+            {/* Enhanced Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">F</span>
+              <div className="relative">
+                {/* Main Logo Circle */}
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                  <span className="text-white font-bold text-xl">🍽️</span>
+                </div>
+                {/* Small accent dot */}
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">✓</span>
+                </div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-orange-500">FoodDash</h1>
-                <p className="text-xs text-gray-500">Delicious food delivered fast</p>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
+                  FoodDash
+                </h1>
+                <p className="text-xs text-gray-500 font-medium">Fast • Fresh • Delicious</p>
               </div>
             </div>
 
@@ -597,7 +670,7 @@ export default function FoodDash() {
                         }
                       : undefined
                   }
-                  className="text-gray-700 hover:text-orange-500 font-medium cursor-pointer"
+                  className="text-gray-700 hover:text-orange-500 font-medium cursor-pointer transition-colors duration-200"
                 >
                   {item}
                 </a>
@@ -860,7 +933,7 @@ export default function FoodDash() {
                   className="w-full bg-orange-500 hover:bg-orange-600 text-lg py-3"
                   size="lg"
                 >
-                  {user ? "Place Order" : "Login to Order"}
+                  {user ? "Proceed to Payment" : "Login to Order"}
                 </Button>
               </CardContent>
             </Card>
@@ -930,7 +1003,7 @@ export default function FoodDash() {
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold">F</span>
+                  <span className="text-white font-bold">🍽️</span>
                 </div>
                 <div>
                   <h5 className="text-xl font-bold">FoodDash</h5>
@@ -1155,7 +1228,14 @@ export default function FoodDash() {
                             <h4 className="text-lg font-bold text-gray-800">Order #{order.id}</h4>
                             <p className="text-sm text-gray-500">{new Date(order.orderTime).toLocaleString()}</p>
                           </div>
-                          <Badge className="bg-green-500">{order.status.toUpperCase()}</Badge>
+                          <div className="flex flex-col items-end gap-2">
+                            <Badge className="bg-green-500">{order.status.toUpperCase()}</Badge>
+                            {order.paymentMethod && (
+                              <Badge variant="outline" className="text-xs">
+                                {order.paymentMethod.toUpperCase()}
+                              </Badge>
+                            )}
+                          </div>
                         </div>
 
                         <div className="mb-4">
@@ -1361,6 +1441,208 @@ export default function FoodDash() {
                   </Button>
                 </div>
               </form>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Payment Modal */}
+      {isPaymentOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-lg">
+            <CardContent className="p-6">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">Complete Payment</h3>
+                <p className="text-gray-600">Choose your preferred payment method</p>
+              </div>
+
+              {/* Order Summary */}
+              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                <h4 className="font-semibold text-gray-800 mb-2">Order Summary</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span>Subtotal:</span>
+                    <span>₹{getTotalPrice()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Delivery Fee:</span>
+                    <span>₹20</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-lg border-t pt-2">
+                    <span>Total:</span>
+                    <span className="text-orange-500">₹{getTotalPrice() + 20}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Methods */}
+              <div className="space-y-3 mb-6">
+                <h4 className="font-semibold text-gray-800">Select Payment Method</h4>
+                {paymentMethods.map((method) => (
+                  <div
+                    key={method.id}
+                    className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
+                      selectedPaymentMethod === method.id
+                        ? "border-orange-500 bg-orange-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                    onClick={() => setSelectedPaymentMethod(method.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <method.icon className="w-6 h-6 text-gray-600" />
+                        <div>
+                          <p className="font-medium text-gray-800">{method.name}</p>
+                          <p className="text-sm text-gray-500">{method.description}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        {method.popular && <Badge className="bg-green-500 text-xs">Popular</Badge>}
+                        <div
+                          className={`w-4 h-4 rounded-full border-2 ${
+                            selectedPaymentMethod === method.id ? "border-orange-500 bg-orange-500" : "border-gray-300"
+                          }`}
+                        >
+                          {selectedPaymentMethod === method.id && (
+                            <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+                              <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Payment Form */}
+              {selectedPaymentMethod && (
+                <div className="mb-6">
+                  {selectedPaymentMethod === "card" && (
+                    <form className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
+                        <input
+                          type="text"
+                          placeholder="1234 5678 9012 3456"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
+                          <input
+                            type="text"
+                            placeholder="MM/YY"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">CVV</label>
+                          <input
+                            type="text"
+                            placeholder="123"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Cardholder Name</label>
+                        <input
+                          type="text"
+                          placeholder="John Doe"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                      </div>
+                    </form>
+                  )}
+
+                  {selectedPaymentMethod === "upi" && (
+                    <form className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">UPI ID</label>
+                        <input
+                          type="text"
+                          placeholder="yourname@paytm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div className="p-4 bg-blue-50 rounded-lg">
+                        <p className="text-sm text-blue-700">
+                          You will be redirected to your UPI app to complete the payment
+                        </p>
+                      </div>
+                    </form>
+                  )}
+
+                  {selectedPaymentMethod === "wallet" && (
+                    <form className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Select Wallet</label>
+                        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                          <option value="">Choose wallet</option>
+                          <option value="paytm">Paytm</option>
+                          <option value="amazonpay">Amazon Pay</option>
+                          <option value="mobikwik">Mobikwik</option>
+                        </select>
+                      </div>
+                      <div className="p-4 bg-purple-50 rounded-lg">
+                        <p className="text-sm text-purple-700">
+                          You will be redirected to your wallet app to complete the payment
+                        </p>
+                      </div>
+                    </form>
+                  )}
+
+                  {selectedPaymentMethod === "cod" && (
+                    <div className="p-4 bg-green-50 rounded-lg">
+                      <p className="text-sm text-green-700 mb-2">
+                        <strong>Cash on Delivery</strong>
+                      </p>
+                      <p className="text-sm text-green-600">
+                        Pay ₹{getTotalPrice() + 20} in cash when your order arrives. Please keep exact change ready.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsPaymentOpen(false)
+                    setSelectedPaymentMethod("")
+                  }}
+                  className="flex-1"
+                  disabled={isProcessingPayment}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => processPayment({})}
+                  disabled={!selectedPaymentMethod || isProcessingPayment}
+                  className="flex-1 bg-orange-500 hover:bg-orange-600"
+                >
+                  {isProcessingPayment ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Processing...</span>
+                    </div>
+                  ) : (
+                    `Pay ₹${getTotalPrice() + 20}`
+                  )}
+                </Button>
+              </div>
+
+              {/* Security Notice */}
+              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                <p className="text-xs text-gray-600 text-center">
+                  🔒 Your payment information is secure and encrypted. We never store your card details.
+                </p>
+              </div>
             </CardContent>
           </Card>
         </div>
