@@ -1,25 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import {
-  ShoppingCart,
-  Star,
-  Clock,
-  MapPin,
-  Phone,
-  Mail,
-  Menu,
-  X,
-  Plus,
-  Minus,
-  Heart,
-  Truck,
-  Shield,
-  Award,
-} from "lucide-react"
+import { ShoppingCart, Star, Clock, MapPin, Phone, Mail, Menu, X, Plus, Minus, Heart } from "lucide-react"
 
 interface FoodItem {
   id: number
@@ -42,20 +27,11 @@ export default function FoodDash() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [activeCategory, setActiveCategory] = useState("all")
   const [favorites, setFavorites] = useState<number[]>([])
-  const [isLoading, setIsLoading] = useState(true)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isSignupOpen, setIsSignupOpen] = useState(false)
   const [user, setUser] = useState<{ name: string; email: string; phone: string } | null>(null)
   const [orders, setOrders] = useState<any[]>([])
   const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false)
-  const [currentOrder, setCurrentOrder] = useState<any>(null)
-  const [activeStoreFilter, setActiveStoreFilter] = useState("all")
-  const [isStoresOpen, setIsStoresOpen] = useState(false)
-
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 1000)
-  }, [])
 
   const foodItems: FoodItem[] = [
     // Pizza Items
@@ -346,212 +322,21 @@ export default function FoodDash() {
     },
   ]
 
-  const partnerStores = [
-    {
-      id: 1,
-      name: "Spice Garden",
-      cuisine: "Indian",
-      rating: 4.8,
-      deliveryTime: "25-30 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Butter Chicken", "Biryani", "Dal Tadka"],
-      offers: "20% OFF on orders above ₹300",
-      isVeg: false,
-      location: "Connaught Place",
-      established: "2018",
-      totalOrders: "10k+",
-    },
-    {
-      id: 2,
-      name: "Pizza Palace",
-      cuisine: "Italian",
-      rating: 4.7,
-      deliveryTime: "20-25 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Margherita Pizza", "Pepperoni Pizza", "Garlic Bread"],
-      offers: "Buy 1 Get 1 Free on Large Pizzas",
-      isVeg: false,
-      location: "Khan Market",
-      established: "2020",
-      totalOrders: "8k+",
-    },
-    {
-      id: 3,
-      name: "Dragon Wok",
-      cuisine: "Chinese",
-      rating: 4.6,
-      deliveryTime: "15-20 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Hakka Noodles", "Fried Rice", "Manchurian"],
-      offers: "Free delivery on orders above ₹200",
-      isVeg: false,
-      location: "Lajpat Nagar",
-      established: "2019",
-      totalOrders: "12k+",
-    },
-    {
-      id: 4,
-      name: "Burger Junction",
-      cuisine: "American",
-      rating: 4.5,
-      deliveryTime: "15-20 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Chicken Burger", "Cheese Burger", "Fries"],
-      offers: "₹50 OFF on first order",
-      isVeg: false,
-      location: "CP Metro Station",
-      established: "2021",
-      totalOrders: "6k+",
-    },
-    {
-      id: 5,
-      name: "South Delights",
-      cuisine: "South Indian",
-      rating: 4.9,
-      deliveryTime: "20-25 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Masala Dosa", "Idli Sambar", "Uttapam"],
-      offers: "Combo meals starting at ₹99",
-      isVeg: true,
-      location: "Karol Bagh",
-      established: "2017",
-      totalOrders: "15k+",
-    },
-    {
-      id: 6,
-      name: "Pasta Corner",
-      cuisine: "Italian",
-      rating: 4.4,
-      deliveryTime: "25-30 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Pasta Alfredo", "Pasta Arrabbiata", "Garlic Bread"],
-      offers: "Free dessert with pasta combos",
-      isVeg: true,
-      location: "Rajouri Garden",
-      established: "2020",
-      totalOrders: "7k+",
-    },
-    {
-      id: 7,
-      name: "Sweet Treats",
-      cuisine: "Desserts",
-      rating: 4.8,
-      deliveryTime: "10-15 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Gulab Jamun", "Chocolate Brownie", "Ice Cream"],
-      offers: "Buy 2 Get 1 Free on desserts",
-      isVeg: true,
-      location: "India Gate",
-      established: "2019",
-      totalOrders: "9k+",
-    },
-    {
-      id: 8,
-      name: "Chai Adda",
-      cuisine: "Beverages",
-      rating: 4.7,
-      deliveryTime: "10-15 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Masala Chai", "Cold Coffee", "Lassi"],
-      offers: "Free snacks with beverages",
-      isVeg: true,
-      location: "Chandni Chowk",
-      established: "2018",
-      totalOrders: "11k+",
-    },
-    {
-      id: 9,
-      name: "Street Food Hub",
-      cuisine: "Street Food",
-      rating: 4.6,
-      deliveryTime: "15-20 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Pani Puri", "Bhel Puri", "Vada Pav"],
-      offers: "Chaat combo at ₹149",
-      isVeg: true,
-      location: "Janpath",
-      established: "2020",
-      totalOrders: "8k+",
-    },
-    {
-      id: 10,
-      name: "Healthy Bites",
-      cuisine: "Healthy",
-      rating: 4.5,
-      deliveryTime: "20-25 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Quinoa Bowl", "Green Salad", "Smoothies"],
-      offers: "10% OFF on healthy meals",
-      isVeg: true,
-      location: "Green Park",
-      established: "2021",
-      totalOrders: "5k+",
-    },
-    {
-      id: 11,
-      name: "Biryani House",
-      cuisine: "Mughlai",
-      rating: 4.9,
-      deliveryTime: "30-35 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Chicken Biryani", "Mutton Biryani", "Raita"],
-      offers: "Family pack at ₹599",
-      isVeg: false,
-      location: "Old Delhi",
-      established: "2016",
-      totalOrders: "20k+",
-    },
-    {
-      id: 12,
-      name: "Taco Bell Express",
-      cuisine: "Mexican",
-      rating: 4.3,
-      deliveryTime: "20-25 min",
-      image: "/placeholder.svg?height=200&width=300",
-      specialties: ["Tacos", "Burritos", "Nachos"],
-      offers: "Mexican fiesta combo ₹299",
-      isVeg: false,
-      location: "Gurgaon",
-      established: "2019",
-      totalOrders: "7k+",
-    },
-  ]
-
   const categories = [
-    { id: "all", name: "All Items", emoji: "🍽️" },
-    { id: "pizza", name: "Pizza", emoji: "🍕" },
-    { id: "indian", name: "Indian", emoji: "🍛" },
-    { id: "chinese", name: "Chinese", emoji: "🥢" },
-    { id: "burgers", name: "Burgers", emoji: "🍔" },
-    { id: "south-indian", name: "South Indian", emoji: "🥞" },
-    { id: "italian", name: "Italian", emoji: "🍝" },
-    { id: "desserts", name: "Desserts", emoji: "🍰" },
-    { id: "beverages", name: "Beverages", emoji: "🥤" },
-    { id: "street-food", name: "Street Food", emoji: "🌮" },
+    { id: "all", name: "All Items" },
+    { id: "pizza", name: "Pizza" },
+    { id: "indian", name: "Indian" },
+    { id: "chinese", name: "Chinese" },
+    { id: "burgers", name: "Burgers" },
+    { id: "south-indian", name: "South Indian" },
+    { id: "italian", name: "Italian" },
+    { id: "desserts", name: "Desserts" },
+    { id: "beverages", name: "Beverages" },
+    { id: "street-food", name: "Street Food" },
   ]
 
   const filteredItems =
     activeCategory === "all" ? foodItems : foodItems.filter((item) => item.category === activeCategory)
-
-  const storeCategories = [
-    "all",
-    "indian",
-    "italian",
-    "chinese",
-    "american",
-    "south indian",
-    "desserts",
-    "beverages",
-    "street food",
-    "healthy",
-    "mughlai",
-    "mexican",
-  ]
-
-  const filteredStores =
-    activeStoreFilter === "all"
-      ? partnerStores
-      : partnerStores.filter((store) => store.cuisine.toLowerCase().includes(activeStoreFilter.toLowerCase()))
 
   const addToCart = (item: FoodItem) => {
     setCart((prevCart) => {
@@ -599,7 +384,6 @@ export default function FoodDash() {
   }
 
   const handleLogin = (email: string, password: string) => {
-    // Simulate login - in real app, this would be an API call
     const userData = {
       name: email.split("@")[0],
       email: email,
@@ -607,7 +391,6 @@ export default function FoodDash() {
     }
     setUser(userData)
     setIsLoginOpen(false)
-    // Load user's previous orders (simulated)
     const mockOrders = [
       {
         id: "FD12345678",
@@ -644,124 +427,42 @@ export default function FoodDash() {
     const newOrder = {
       id: orderId,
       items: cart.map((item) => `${item.name} x${item.quantity}`),
-      total: getTotalPrice() + 20, // Including delivery charges
+      total: getTotalPrice() + 20,
       status: "confirmed",
       orderTime: new Date().toISOString(),
       estimatedTime: "25-30 min",
-      trackingSteps: [
-        { step: "Order Confirmed", time: new Date().toISOString(), completed: true },
-        { step: "Preparing Food", time: null, completed: false },
-        { step: "Out for Delivery", time: null, completed: false },
-        { step: "Delivered", time: null, completed: false },
-      ],
     }
 
     setOrders((prev) => [newOrder, ...prev])
-    setCurrentOrder(newOrder)
     setCart([])
-    setIsOrderTrackingOpen(true)
-
-    // Simulate order progress
-    setTimeout(() => {
-      setOrders((prev) =>
-        prev.map((order) =>
-          order.id === orderId
-            ? {
-                ...order,
-                status: "preparing",
-                trackingSteps: order.trackingSteps.map((step, index) =>
-                  index === 1 ? { ...step, time: new Date().toISOString(), completed: true } : step,
-                ),
-              }
-            : order,
-        ),
-      )
-    }, 3000)
-
-    setTimeout(() => {
-      setOrders((prev) =>
-        prev.map((order) =>
-          order.id === orderId
-            ? {
-                ...order,
-                status: "out-for-delivery",
-                trackingSteps: order.trackingSteps.map((step, index) =>
-                  index === 2 ? { ...step, time: new Date().toISOString(), completed: true } : step,
-                ),
-              }
-            : order,
-        ),
-      )
-    }, 8000)
-
-    setTimeout(() => {
-      setOrders((prev) =>
-        prev.map((order) =>
-          order.id === orderId
-            ? {
-                ...order,
-                status: "delivered",
-                trackingSteps: order.trackingSteps.map((step, index) =>
-                  index === 3 ? { ...step, time: new Date().toISOString(), completed: true } : step,
-                ),
-              }
-            : order,
-        ),
-      )
-    }, 15000)
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-            <span className="text-white font-bold text-2xl">F</span>
-          </div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-            Loading FoodDash...
-          </h2>
-        </div>
-      </div>
-    )
+    alert(`Order placed successfully! Order ID: ${orderId}`)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md shadow-xl sticky top-0 z-50 border-b border-orange-100">
+      <header className="bg-white shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">F</span>
+              <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">F</span>
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
-                  FoodDash
-                </h1>
+                <h1 className="text-2xl font-bold text-orange-500">FoodDash</h1>
                 <p className="text-xs text-gray-500">Delicious food delivered fast</p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
+            <nav className="hidden md:flex items-center space-x-6">
+              {["Home", "Menu", "About", "Contact"].map((item) => (
                 <a
                   key={item}
-                  href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
-                  onClick={
-                    item === "Stores"
-                      ? (e) => {
-                          e.preventDefault()
-                          setIsStoresOpen(true)
-                        }
-                      : undefined
-                  }
-                  className="text-gray-700 hover:text-orange-500 transition-all duration-300 font-medium relative group cursor-pointer"
+                  href={`#${item.toLowerCase()}`}
+                  className="text-gray-700 hover:text-orange-500 font-medium"
                 >
                   {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 group-hover:w-full transition-all duration-300"></span>
                 </a>
               ))}
             </nav>
@@ -773,54 +474,29 @@ export default function FoodDash() {
                     <p className="text-sm font-medium text-gray-700">Welcome, {user.name}!</p>
                     <p className="text-xs text-gray-500">{user.email}</p>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsOrderTrackingOpen(true)}
-                    className="hover:bg-blue-50 hover:border-blue-300 transition-all duration-300"
-                  >
+                  <Button variant="outline" size="sm" onClick={() => setIsOrderTrackingOpen(true)}>
                     Track Orders
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleLogout}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                  >
+                  <Button variant="ghost" size="sm" onClick={handleLogout} className="text-red-600 hover:text-red-700">
                     Logout
                   </Button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsLoginOpen(true)}
-                    className="hover:bg-blue-50 hover:border-blue-300 transition-all duration-300"
-                  >
+                  <Button variant="outline" size="sm" onClick={() => setIsLoginOpen(true)}>
                     Login
                   </Button>
-                  <Button
-                    size="sm"
-                    onClick={() => setIsSignupOpen(true)}
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
-                  >
+                  <Button size="sm" onClick={() => setIsSignupOpen(true)} className="bg-blue-500 hover:bg-blue-600">
                     Sign Up
                   </Button>
                 </div>
               )}
 
-              <Button
-                variant="outline"
-                size="sm"
-                className="relative hover:bg-orange-50 hover:border-orange-300 transition-all duration-300 shadow-md hover:shadow-lg"
-              >
+              <Button variant="outline" size="sm" className="relative">
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 Cart
                 {getTotalItems() > 0 && (
-                  <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 animate-pulse">
-                    {getTotalItems()}
-                  </Badge>
+                  <Badge className="absolute -top-2 -right-2 bg-red-500">{getTotalItems()}</Badge>
                 )}
               </Button>
 
@@ -833,21 +509,13 @@ export default function FoodDash() {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <nav className="md:hidden mt-4 pb-4 border-t pt-4 bg-white/90 backdrop-blur-sm rounded-lg">
+            <nav className="md:hidden mt-4 pb-4 border-t pt-4">
               <div className="flex flex-col space-y-3">
-                {["Home", "Menu", "Stores", "About", "Contact"].map((item) => (
+                {["Home", "Menu", "About", "Contact"].map((item) => (
                   <a
                     key={item}
-                    href={item === "Stores" ? "#" : `#${item.toLowerCase()}`}
-                    onClick={
-                      item === "Stores"
-                        ? (e) => {
-                            e.preventDefault()
-                            setIsStoresOpen(true)
-                          }
-                        : undefined
-                    }
-                    className="text-gray-700 hover:text-orange-500 transition-colors duration-300 py-2 px-4 rounded-lg hover:bg-orange-50 cursor-pointer"
+                    href={`#${item.toLowerCase()}`}
+                    className="text-gray-700 hover:text-orange-500 py-2 px-4 rounded hover:bg-gray-100"
                   >
                     {item}
                   </a>
@@ -859,67 +527,34 @@ export default function FoodDash() {
       </header>
 
       {/* Hero Section */}
-      <section id="home" className="py-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10"></div>
-        <div className="container mx-auto text-center relative z-10">
-          <div className="mb-8">
-            <img
-              src="/images/hero-food.jpg"
-              alt="Delicious Food"
-              className="w-32 h-32 rounded-full mx-auto shadow-2xl border-4 border-white mb-6 object-cover"
-            />
-          </div>
-          <h2 className="text-6xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
+      <section id="home" className="py-16 px-4 bg-white">
+        <div className="container mx-auto text-center">
+          <h2 className="text-5xl font-bold text-gray-800 mb-6">
             Delicious Food
-            <span className="block bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
-              Delivered Fast
-            </span>
+            <span className="block text-orange-500">Delivered Fast</span>
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Order your favorite meals from the best restaurants in town. Fast delivery, fresh ingredients, amazing taste
             guaranteed.
           </p>
 
-          {/* Features */}
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
-            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-              <Truck className="w-5 h-5 text-orange-500" />
-              <span className="text-sm font-medium">30min Delivery</span>
-            </div>
-            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-              <Shield className="w-5 h-5 text-green-500" />
-              <span className="text-sm font-medium">Safe & Hygienic</span>
-            </div>
-            <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-              <Award className="w-5 h-5 text-blue-500" />
-              <span className="text-sm font-medium">Top Rated</span>
-            </div>
-          </div>
-
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl text-lg px-8 py-4"
-            >
-              Order Now 🚀
+            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-4">
+              Order Now
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="hover:bg-orange-50 hover:border-orange-300 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-lg px-8 py-4"
-            >
-              View Menu 📋
+            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+              View Menu
             </Button>
           </div>
         </div>
       </section>
 
       {/* Menu Section */}
-      <section id="menu" className="py-16 px-4 bg-white/50 backdrop-blur-sm">
+      <section id="menu" className="py-16 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h3 className="text-5xl font-bold text-gray-800 mb-4">Our Delicious Menu</h3>
-            <p className="text-xl text-gray-600">Handpicked dishes from the finest kitchens</p>
+            <h3 className="text-4xl font-bold text-gray-800 mb-4">Our Menu</h3>
+            <p className="text-xl text-gray-600">Choose from our delicious selection</p>
           </div>
 
           {/* Category Filter */}
@@ -929,68 +564,47 @@ export default function FoodDash() {
                 key={category.id}
                 variant={activeCategory === category.id ? "default" : "outline"}
                 onClick={() => setActiveCategory(category.id)}
-                className={`transition-all duration-300 text-sm px-6 py-3 ${
-                  activeCategory === category.id
-                    ? "bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 shadow-lg"
-                    : "hover:bg-orange-50 hover:border-orange-300 shadow-md hover:shadow-lg"
-                }`}
+                className={activeCategory === category.id ? "bg-orange-500 hover:bg-orange-600" : ""}
               >
-                <span className="mr-2">{category.emoji}</span>
                 {category.name}
               </Button>
             ))}
           </div>
 
           {/* Food Items Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredItems.map((item) => (
-              <Card
-                key={item.id}
-                className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 group bg-white/90 backdrop-blur-sm border-0 shadow-lg"
-              >
-                <div className="p-6 border-b border-gray-100">
+              <Card key={item.id} className="hover:shadow-lg">
+                <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    {/* Badges */}
                     <div className="flex gap-2">
-                      <Badge className="bg-green-500/90 hover:bg-green-600">
+                      <Badge className="bg-green-500">
                         <Star className="w-3 h-3 mr-1" />
                         {item.rating}
                       </Badge>
-                      {item.isVeg && <Badge className="bg-green-600/90">🌱 Veg</Badge>}
+                      {item.isVeg && <Badge className="bg-green-600">Veg</Badge>}
                     </div>
 
-                    {/* Favorite Button */}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="w-10 h-10 rounded-full hover:bg-gray-100 p-0"
-                      onClick={() => toggleFavorite(item.id)}
-                    >
+                    <Button variant="ghost" size="sm" className="w-8 h-8 p-0" onClick={() => toggleFavorite(item.id)}>
                       <Heart
-                        className={`w-5 h-5 ${
+                        className={`w-4 h-4 ${
                           favorites.includes(item.id) ? "fill-red-500 text-red-500" : "text-gray-600"
-                        } transition-colors duration-300`}
+                        }`}
                       />
                     </Button>
                   </div>
-                </div>
 
-                <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors duration-300">
-                      {item.name}
-                    </h4>
+                    <h4 className="text-lg font-bold text-gray-800">{item.name}</h4>
                     {item.spiceLevel && <span className="text-sm">{getSpiceIndicator(item.spiceLevel)}</span>}
                   </div>
 
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed">{item.description}</p>
+                  <p className="text-gray-600 mb-4 text-sm">{item.description}</p>
 
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-                      ₹{item.price}
-                    </span>
-                    <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded-full">
-                      <Clock className="w-4 h-4 mr-1" />
+                    <span className="text-xl font-bold text-orange-500">₹{item.price}</span>
+                    <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-2 py-1 rounded">
+                      <Clock className="w-3 h-3 mr-1" />
                       {item.cookTime}
                     </div>
                   </div>
@@ -1003,7 +617,7 @@ export default function FoodDash() {
                             size="sm"
                             variant="outline"
                             onClick={() => removeFromCart(item.id)}
-                            className="w-8 h-8 p-0 hover:bg-red-50 hover:border-red-300 rounded-full"
+                            className="w-8 h-8 p-0"
                           >
                             <Minus className="w-4 h-4" />
                           </Button>
@@ -1013,10 +627,7 @@ export default function FoodDash() {
                         </>
                       )}
                     </div>
-                    <Button
-                      onClick={() => addToCart(item)}
-                      className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-                    >
+                    <Button onClick={() => addToCart(item)} className="bg-orange-500 hover:bg-orange-600">
                       <Plus className="w-4 h-4 mr-2" />
                       Add to Cart
                     </Button>
@@ -1030,16 +641,14 @@ export default function FoodDash() {
 
       {/* Cart Summary */}
       {cart.length > 0 && (
-        <section className="py-8 px-4 bg-gradient-to-r from-orange-100 to-red-100">
+        <section className="py-8 px-4 bg-orange-50">
           <div className="container mx-auto">
-            <Card className="max-w-md mx-auto shadow-2xl bg-white/95 backdrop-blur-sm border-0">
+            <Card className="max-w-md mx-auto">
               <CardContent className="p-6">
-                <h4 className="text-2xl font-bold mb-4 text-center bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-                  Order Summary 🛒
-                </h4>
+                <h4 className="text-xl font-bold mb-4 text-center text-orange-500">Order Summary</h4>
                 <div className="space-y-3 mb-6">
                   {cart.map((item) => (
-                    <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div key={item.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
                       <div>
                         <span className="font-medium">{item.name}</span>
                         <span className="text-gray-500 text-sm block">x{item.quantity}</span>
@@ -1049,20 +658,18 @@ export default function FoodDash() {
                   ))}
                 </div>
                 <div className="border-t pt-4 mb-6">
-                  <div className="flex justify-between items-center text-2xl font-bold">
+                  <div className="flex justify-between items-center text-xl font-bold">
                     <span>Total:</span>
-                    <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-                      ₹{getTotalPrice()}
-                    </span>
+                    <span className="text-orange-500">₹{getTotalPrice()}</span>
                   </div>
                   <p className="text-sm text-gray-500 mt-2">+ ₹20 delivery charges</p>
                 </div>
                 <Button
                   onClick={placeOrder}
-                  className="w-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl text-lg py-4"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-lg py-3"
                   size="lg"
                 >
-                  {user ? "Place Order 🚀" : "Login to Order 🔐"}
+                  {user ? "Place Order" : "Login to Order"}
                 </Button>
               </CardContent>
             </Card>
@@ -1071,67 +678,54 @@ export default function FoodDash() {
       )}
 
       {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-white/50 backdrop-blur-sm">
+      <section id="about" className="py-16 px-4 bg-white">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-5xl font-bold text-gray-800 mb-6">About FoodDash</h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              <h3 className="text-4xl font-bold text-gray-800 mb-6">About FoodDash</h3>
+              <p className="text-lg text-gray-600 mb-6">
                 We're passionate about bringing you the best food from your favorite restaurants, delivered fresh and
                 fast to your doorstep. Our mission is to make great food accessible to everyone, anytime, anywhere.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 {[
-                  { number: "500+", label: "Restaurants", color: "text-orange-500" },
-                  { number: "10k+", label: "Happy Customers", color: "text-red-500" },
-                  { number: "30min", label: "Avg Delivery", color: "text-green-500" },
-                  { number: "4.8★", label: "Rating", color: "text-blue-500" },
+                  { number: "500+", label: "Restaurants" },
+                  { number: "10k+", label: "Happy Customers" },
+                  { number: "30min", label: "Avg Delivery" },
+                  { number: "4.8★", label: "Rating" },
                 ].map((stat, index) => (
-                  <div key={index} className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg">
-                    <div className={`text-4xl font-bold ${stat.color} mb-2`}>{stat.number}</div>
+                  <div key={index} className="text-center p-4 bg-gray-50 rounded-lg">
+                    <div className="text-3xl font-bold text-orange-500 mb-2">{stat.number}</div>
                     <div className="text-gray-600 font-medium">{stat.label}</div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="relative">
-              <img
-                src="/images/hero-food.jpg"
-                alt="About FoodDash"
-                className="rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent rounded-2xl"></div>
+            <div className="text-center">
+              <div className="w-64 h-64 bg-orange-100 rounded-lg mx-auto flex items-center justify-center">
+                <span className="text-6xl">🍽️</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 px-4 bg-gradient-to-br from-orange-50 to-red-50">
+      <section id="contact" className="py-16 px-4 bg-gray-50">
         <div className="container mx-auto">
-          <h3 className="text-5xl font-bold text-center text-gray-800 mb-12">Contact Us</h3>
+          <h3 className="text-4xl font-bold text-center text-gray-800 mb-12">Contact Us</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              {
-                icon: MapPin,
-                title: "Address",
-                info: "Food Street, City, Delhi 6",
-                color: "from-orange-500 to-red-500",
-              },
-              { icon: Phone, title: "Phone", info: "+91 8877002297", color: "from-red-500 to-pink-500" },
-              { icon: Mail, title: "Email", info: "hello@fooddash.com", color: "from-pink-500 to-purple-500" },
+              { icon: MapPin, title: "Address", info: "Food Street, City, Delhi 6" },
+              { icon: Phone, title: "Phone", info: "+91 8877002297" },
+              { icon: Mail, title: "Email", info: "hello@fooddash.com" },
             ].map((contact, index) => (
-              <Card
-                key={index}
-                className="text-center p-8 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white/90 backdrop-blur-sm border-0"
-              >
-                <div
-                  className={`w-20 h-20 bg-gradient-to-r ${contact.color} rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl`}
-                >
-                  <contact.icon className="w-10 h-10 text-white" />
+              <Card key={index} className="text-center p-6">
+                <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <contact.icon className="w-8 h-8 text-white" />
                 </div>
-                <h4 className="text-2xl font-bold mb-4">{contact.title}</h4>
-                <p className="text-gray-600 text-lg">{contact.info}</p>
+                <h4 className="text-xl font-bold mb-2">{contact.title}</h4>
+                <p className="text-gray-600">{contact.info}</p>
               </Card>
             ))}
           </div>
@@ -1139,20 +733,20 @@ export default function FoodDash() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white py-12 px-4">
+      <footer className="bg-gray-800 text-white py-8 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-lg">F</span>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">F</span>
                 </div>
                 <div>
-                  <h5 className="text-2xl font-bold">FoodDash</h5>
+                  <h5 className="text-xl font-bold">FoodDash</h5>
                   <p className="text-gray-400 text-sm">Delivering happiness</p>
                 </div>
               </div>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-gray-400">
                 Delivering happiness, one meal at a time. Experience the best food delivery service in town.
               </p>
             </div>
@@ -1163,14 +757,11 @@ export default function FoodDash() {
               { title: "Follow Us", items: ["Facebook", "Twitter", "Instagram", "YouTube"] },
             ].map((section, index) => (
               <div key={index}>
-                <h6 className="font-bold mb-4 text-lg">{section.title}</h6>
-                <ul className="space-y-3">
+                <h6 className="font-bold mb-4">{section.title}</h6>
+                <ul className="space-y-2">
                   {section.items.map((item, itemIndex) => (
                     <li key={itemIndex}>
-                      <a
-                        href="#"
-                        className="text-gray-400 hover:text-orange-400 transition-colors duration-300 hover:underline"
-                      >
+                      <a href="#" className="text-gray-400 hover:text-orange-400">
                         {item}
                       </a>
                     </li>
@@ -1179,7 +770,7 @@ export default function FoodDash() {
               </div>
             ))}
           </div>
-          <div className="border-t border-gray-700 mt-12 pt-8 text-center">
+          <div className="border-t border-gray-700 mt-8 pt-8 text-center">
             <p className="text-gray-400">&copy; 2024 FoodDash. All rights reserved. Made with ❤️ for food lovers.</p>
           </div>
         </div>
@@ -1187,13 +778,10 @@ export default function FoodDash() {
 
       {/* Login Modal */}
       {isLoginOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
-            <CardContent className="p-8">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardContent className="p-6">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white font-bold text-2xl">🔐</span>
-                </div>
                 <h3 className="text-2xl font-bold text-gray-800">Welcome Back!</h3>
                 <p className="text-gray-600">Login to your FoodDash account</p>
               </div>
@@ -1212,7 +800,7 @@ export default function FoodDash() {
                     type="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -1222,7 +810,7 @@ export default function FoodDash() {
                     type="password"
                     name="password"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Enter your password"
                   />
                 </div>
@@ -1230,10 +818,7 @@ export default function FoodDash() {
                   <Button type="button" variant="outline" onClick={() => setIsLoginOpen(false)} className="flex-1">
                     Cancel
                   </Button>
-                  <Button
-                    type="submit"
-                    className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
-                  >
+                  <Button type="submit" className="flex-1 bg-orange-500 hover:bg-orange-600">
                     Login
                   </Button>
                 </div>
@@ -1246,7 +831,7 @@ export default function FoodDash() {
                     setIsLoginOpen(false)
                     setIsSignupOpen(true)
                   }}
-                  className="text-blue-500 hover:text-blue-600 font-medium"
+                  className="text-orange-500 hover:text-orange-600 font-medium"
                 >
                   Sign up here
                 </button>
@@ -1258,13 +843,10 @@ export default function FoodDash() {
 
       {/* Signup Modal */}
       {isSignupOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
-            <CardContent className="p-8">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardContent className="p-6">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white font-bold text-2xl">👋</span>
-                </div>
                 <h3 className="text-2xl font-bold text-gray-800">Join FoodDash!</h3>
                 <p className="text-gray-600">Create your account to start ordering</p>
               </div>
@@ -1288,7 +870,7 @@ export default function FoodDash() {
                     type="text"
                     name="name"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -1298,7 +880,7 @@ export default function FoodDash() {
                     type="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -1308,7 +890,7 @@ export default function FoodDash() {
                     type="tel"
                     name="phone"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Enter your phone number"
                   />
                 </div>
@@ -1318,7 +900,7 @@ export default function FoodDash() {
                     type="password"
                     name="password"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Create a password"
                   />
                 </div>
@@ -1326,10 +908,7 @@ export default function FoodDash() {
                   <Button type="button" variant="outline" onClick={() => setIsSignupOpen(false)} className="flex-1">
                     Cancel
                   </Button>
-                  <Button
-                    type="submit"
-                    className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
-                  >
+                  <Button type="submit" className="flex-1 bg-orange-500 hover:bg-orange-600">
                     Sign Up
                   </Button>
                 </div>
@@ -1342,7 +921,7 @@ export default function FoodDash() {
                     setIsSignupOpen(false)
                     setIsLoginOpen(true)
                   }}
-                  className="text-green-500 hover:text-green-600 font-medium"
+                  className="text-orange-500 hover:text-orange-600 font-medium"
                 >
                   Login here
                 </button>
@@ -1354,16 +933,16 @@ export default function FoodDash() {
 
       {/* Order Tracking Modal */}
       {isOrderTrackingOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl bg-white/95 backdrop-blur-sm border-0 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <CardContent className="p-8">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-800">Order Tracking</h3>
-                  <p className="text-gray-600">Track your delicious orders</p>
+                  <p className="text-gray-600">Track your orders</p>
                 </div>
-                <Button variant="ghost" onClick={() => setIsOrderTrackingOpen(false)} className="w-10 h-10 p-0">
-                  <X className="w-5 h-5" />
+                <Button variant="ghost" onClick={() => setIsOrderTrackingOpen(false)} className="w-8 h-8 p-0">
+                  <X className="w-4 h-4" />
                 </Button>
               </div>
 
@@ -1376,31 +955,16 @@ export default function FoodDash() {
                   <p className="text-gray-600">Start ordering to see your order history here!</p>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {orders.map((order) => (
-                    <Card
-                      key={order.id}
-                      className="border-2 border-gray-100 hover:border-orange-200 transition-colors duration-300"
-                    >
-                      <CardContent className="p-6">
+                    <Card key={order.id} className="border-2 border-gray-100">
+                      <CardContent className="p-4">
                         <div className="flex items-center justify-between mb-4">
                           <div>
                             <h4 className="text-lg font-bold text-gray-800">Order #{order.id}</h4>
                             <p className="text-sm text-gray-500">{new Date(order.orderTime).toLocaleString()}</p>
                           </div>
-                          <Badge
-                            className={`${
-                              order.status === "delivered"
-                                ? "bg-green-500"
-                                : order.status === "out-for-delivery"
-                                  ? "bg-blue-500"
-                                  : order.status === "preparing"
-                                    ? "bg-yellow-500"
-                                    : "bg-orange-500"
-                            }`}
-                          >
-                            {order.status.replace("-", " ").toUpperCase()}
-                          </Badge>
+                          <Badge className="bg-green-500">{order.status.toUpperCase()}</Badge>
                         </div>
 
                         <div className="mb-4">
@@ -1414,34 +978,10 @@ export default function FoodDash() {
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center justify-between">
                           <span className="font-semibold text-gray-800">Total: ₹{order.total}</span>
                           <span className="text-sm text-gray-500">Est. {order.estimatedTime}</span>
                         </div>
-
-                        {/* Order Tracking Steps */}
-                        {order.trackingSteps && (
-                          <div className="space-y-3">
-                            <p className="text-sm font-medium text-gray-700">Order Progress:</p>
-                            {order.trackingSteps.map((step, index) => (
-                              <div key={index} className="flex items-center space-x-3">
-                                <div
-                                  className={`w-4 h-4 rounded-full ${step.completed ? "bg-green-500" : "bg-gray-300"}`}
-                                ></div>
-                                <div className="flex-1">
-                                  <p
-                                    className={`text-sm ${step.completed ? "text-green-700 font-medium" : "text-gray-500"}`}
-                                  >
-                                    {step.step}
-                                  </p>
-                                  {step.time && (
-                                    <p className="text-xs text-gray-400">{new Date(step.time).toLocaleTimeString()}</p>
-                                  )}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
                       </CardContent>
                     </Card>
                   ))}
@@ -1451,157 +991,6 @@ export default function FoodDash() {
           </Card>
         </div>
       )}
-
-      {/* Stores Modal */}
-      {isStoresOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-6xl bg-white/95 backdrop-blur-sm border-0 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <CardContent className="p-8">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h3 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-                    Our Partner Restaurants 🏪
-                  </h3>
-                  <p className="text-gray-600 mt-2">Discover amazing restaurants we've partnered with</p>
-                </div>
-                <Button variant="ghost" onClick={() => setIsStoresOpen(false)} className="w-10 h-10 p-0">
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-
-              {/* Store Category Filter */}
-              <div className="flex flex-wrap justify-center gap-3 mb-8">
-                {storeCategories.map((category) => (
-                  <Button
-                    key={category}
-                    variant={activeStoreFilter === category ? "default" : "outline"}
-                    onClick={() => setActiveStoreFilter(category)}
-                    className={`capitalize transition-all duration-300 text-sm px-4 py-2 ${
-                      activeStoreFilter === category
-                        ? "bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg"
-                        : "hover:bg-orange-50 hover:border-orange-300 shadow-md hover:shadow-lg"
-                    }`}
-                  >
-                    {category}
-                  </Button>
-                ))}
-              </div>
-
-              {/* Partner Stores Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredStores.map((store) => (
-                  <Card
-                    key={store.id}
-                    className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group bg-white/90 backdrop-blur-sm border-0 shadow-lg"
-                  >
-                    <div className="relative overflow-hidden">
-                      <img
-                        src={store.image || "/placeholder.svg"}
-                        alt={store.name}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                      {/* Store Badges */}
-                      <div className="absolute top-4 right-4 flex flex-col gap-2">
-                        <Badge className="bg-green-500/90 hover:bg-green-600 backdrop-blur-sm">
-                          <Star className="w-3 h-3 mr-1" />
-                          {store.rating}
-                        </Badge>
-                        {store.isVeg && <Badge className="bg-green-600/90 backdrop-blur-sm">🌱 Pure Veg</Badge>}
-                      </div>
-
-                      {/* Established Badge */}
-                      <div className="absolute top-4 left-4">
-                        <Badge className="bg-blue-500/90 backdrop-blur-sm text-xs">Est. {store.established}</Badge>
-                      </div>
-                    </div>
-
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <h4 className="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors duration-300">
-                            {store.name}
-                          </h4>
-                          <p className="text-sm text-gray-500">{store.location}</p>
-                        </div>
-                        <Badge variant="outline" className="text-xs">
-                          {store.cuisine}
-                        </Badge>
-                      </div>
-
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded-full">
-                          <Clock className="w-4 h-4 mr-1" />
-                          {store.deliveryTime}
-                        </div>
-                        <div className="text-sm text-gray-600">{store.totalOrders} orders</div>
-                      </div>
-
-                      {/* Specialties */}
-                      <div className="mb-4">
-                        <p className="text-sm font-medium text-gray-700">Specialties:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {store.specialties.slice(0, 3).map((specialty, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
-                              {specialty}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Offers */}
-                      <div className="mb-4 p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-200">
-                        <p className="text-sm font-medium text-orange-700 mb-1">🎉 Special Offer</p>
-                        <p className="text-xs text-orange-600">{store.offers}</p>
-                      </div>
-
-                      <Button
-                        className="w-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-                        onClick={() => {
-                          setIsStoresOpen(false)
-                          document.getElementById("menu")?.scrollIntoView({ behavior: "smooth" })
-                        }}
-                      >
-                        View Menu 🍽️
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              {filteredStores.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-4xl">🏪</span>
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-800 mb-2">No Restaurants Found</h4>
-                  <p className="text-gray-600">Try selecting a different cuisine category.</p>
-                </div>
-              )}
-
-              {/* Partnership Stats */}
-              <div className="mt-12 pt-8 border-t border-gray-200">
-                <h4 className="text-2xl font-bold text-center text-gray-800 mb-8">Partnership Statistics</h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {[
-                    { number: partnerStores.length + "+", label: "Partner Restaurants", color: "text-orange-500" },
-                    { number: "50k+", label: "Total Orders", color: "text-red-500" },
-                    { number: "4.7★", label: "Average Rating", color: "text-green-500" },
-                    { number: "12", label: "Cuisine Types", color: "text-blue-500" },
-                  ].map((stat, index) => (
-                    <div key={index} className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg">
-                      <div className={`text-3xl font-bold ${stat.color} mb-2`}>{stat.number}</div>
-                      <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
     </div>
   )
 }
-\`\`\`
