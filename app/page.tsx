@@ -68,7 +68,6 @@ export default function FoodDash() {
       category: "pizza",
       cookTime: "25-30 min",
       isVeg: true,
-      image:https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEge_EpituiIpq3ENaHfAe5CWcdE4AA1URv6et_fCEGxJk4M1sqFv71uis2JKJiRJ5Cc3oGPwQz41tgsp0-O3G9XgWrnec3-AfL7ese7rFrTegx_Aq9NtRyui-Tis1nBoRfubYa9X7EJBERXoKyXS8N_ILSYgI_AeI8e0npEupj_pvJ9uOEAIs7EBFpT/s1153/Pesto%20Margherita%20Pizza.jpg
     },
     {
       id: 2,
@@ -1541,7 +1540,7 @@ export default function FoodDash() {
 
                       {/* Specialties */}
                       <div className="mb-4">
-                        <p className="text-sm font-medium text-gray-700 mb-2">Specialties:</p>
+                        <p className="text-sm font-medium text-gray-700">Specialties:</p>
                         <div className="flex flex-wrap gap-1">
                           {store.specialties.slice(0, 3).map((specialty, index) => (
                             <Badge key={index} variant="outline" className="text-xs">
@@ -1605,3 +1604,4 @@ export default function FoodDash() {
     </div>
   )
 }
+\`\`\`
