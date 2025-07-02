@@ -61,6 +61,9 @@ export default function FoodDash() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
   const [isDeliveryPartnersOpen, setIsDeliveryPartnersOpen] = useState(false)
+  const [isTieUpPartnersOpen, setIsTieUpPartnersOpen] = useState(false)
+  const [isPartnerApplicationOpen, setIsPartnerApplicationOpen] = useState(false)
+  const [activeTieUpFilter, setActiveTieUpFilter] = useState("all")
 
   const foodItems: FoodItem[] = [
     // Pizza Items
@@ -525,6 +528,267 @@ export default function FoodDash() {
     },
   ]
 
+  const tieUpPartners = [
+    {
+      id: 1,
+      name: "The Royal Kitchen",
+      type: "Restaurant",
+      cuisine: "North Indian",
+      rating: 4.9,
+      location: "Connaught Place, Delhi",
+      established: "2015",
+      specialties: ["Butter Chicken", "Dal Makhani", "Naan", "Biryani"],
+      priceRange: "₹₹₹",
+      deliveryTime: "25-35 min",
+      minimumOrder: 200,
+      offers: "20% OFF on orders above ₹500",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Chef Rajesh Sharma",
+      phone: "+91 9876543210",
+      email: "royal.kitchen@email.com",
+      joinedDate: "2020-01-15",
+      totalOrders: "15k+",
+      monthlyRevenue: "₹8,50,000",
+      status: "active",
+      commission: "18%",
+      features: ["Dine-in", "Takeaway", "Delivery", "Catering"],
+      workingHours: "10:00 AM - 11:00 PM",
+      seatingCapacity: 80,
+      isVeg: false,
+      hasParking: true,
+      acceptsCards: true,
+      hasWifi: true,
+    },
+    {
+      id: 2,
+      name: "Café Mocha",
+      type: "Café",
+      cuisine: "Continental",
+      rating: 4.7,
+      location: "Khan Market, Delhi",
+      established: "2018",
+      specialties: ["Cappuccino", "Croissants", "Pasta", "Sandwiches"],
+      priceRange: "₹₹",
+      deliveryTime: "15-25 min",
+      minimumOrder: 150,
+      offers: "Buy 2 Get 1 Free on beverages",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Ms. Priya Gupta",
+      phone: "+91 9876543211",
+      email: "cafe.mocha@email.com",
+      joinedDate: "2020-03-20",
+      totalOrders: "12k+",
+      monthlyRevenue: "₹4,20,000",
+      status: "active",
+      commission: "15%",
+      features: ["Dine-in", "Takeaway", "Delivery", "WiFi Lounge"],
+      workingHours: "8:00 AM - 10:00 PM",
+      seatingCapacity: 45,
+      isVeg: true,
+      hasParking: false,
+      acceptsCards: true,
+      hasWifi: true,
+    },
+    {
+      id: 3,
+      name: "Spice Junction",
+      type: "Restaurant",
+      cuisine: "South Indian",
+      rating: 4.8,
+      location: "Lajpat Nagar, Delhi",
+      established: "2012",
+      specialties: ["Dosa", "Idli", "Sambar", "Filter Coffee"],
+      priceRange: "₹₹",
+      deliveryTime: "20-30 min",
+      minimumOrder: 120,
+      offers: "Combo meals starting at ₹99",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Mr. Venkatesh Iyer",
+      phone: "+91 9876543212",
+      email: "spice.junction@email.com",
+      joinedDate: "2019-08-10",
+      totalOrders: "18k+",
+      monthlyRevenue: "₹6,80,000",
+      status: "active",
+      commission: "16%",
+      features: ["Dine-in", "Takeaway", "Delivery", "Traditional Ambiance"],
+      workingHours: "7:00 AM - 10:30 PM",
+      seatingCapacity: 60,
+      isVeg: true,
+      hasParking: true,
+      acceptsCards: true,
+      hasWifi: false,
+    },
+    {
+      id: 4,
+      name: "Pizza Corner",
+      type: "Restaurant",
+      cuisine: "Italian",
+      rating: 4.6,
+      location: "Karol Bagh, Delhi",
+      established: "2019",
+      specialties: ["Wood Fired Pizza", "Pasta", "Garlic Bread", "Tiramisu"],
+      priceRange: "₹₹₹",
+      deliveryTime: "30-40 min",
+      minimumOrder: 250,
+      offers: "Buy 1 Get 1 Free on Large Pizzas",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Chef Marco Rossi",
+      phone: "+91 9876543213",
+      email: "pizza.corner@email.com",
+      joinedDate: "2020-06-05",
+      totalOrders: "10k+",
+      monthlyRevenue: "₹7,20,000",
+      status: "active",
+      commission: "20%",
+      features: ["Dine-in", "Takeaway", "Delivery", "Wood Fired Oven"],
+      workingHours: "12:00 PM - 11:30 PM",
+      seatingCapacity: 70,
+      isVeg: false,
+      hasParking: true,
+      acceptsCards: true,
+      hasWifi: true,
+    },
+    {
+      id: 5,
+      name: "Green Leaf Café",
+      type: "Café",
+      cuisine: "Healthy",
+      rating: 4.8,
+      location: "Greater Kailash, Delhi",
+      established: "2020",
+      specialties: ["Smoothie Bowls", "Salads", "Quinoa Bowls", "Fresh Juices"],
+      priceRange: "₹₹₹",
+      deliveryTime: "20-30 min",
+      minimumOrder: 180,
+      offers: "15% OFF on healthy combos",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Ms. Ananya Sharma",
+      phone: "+91 9876543214",
+      email: "greenleaf.cafe@email.com",
+      joinedDate: "2021-02-14",
+      totalOrders: "8k+",
+      monthlyRevenue: "₹5,60,000",
+      status: "active",
+      commission: "17%",
+      features: ["Dine-in", "Takeaway", "Delivery", "Organic Menu"],
+      workingHours: "7:00 AM - 9:00 PM",
+      seatingCapacity: 35,
+      isVeg: true,
+      hasParking: false,
+      acceptsCards: true,
+      hasWifi: true,
+    },
+    {
+      id: 6,
+      name: "Tandoor Express",
+      type: "Restaurant",
+      cuisine: "Punjabi",
+      rating: 4.7,
+      location: "Punjabi Bagh, Delhi",
+      established: "2016",
+      specialties: ["Tandoori Chicken", "Butter Naan", "Lassi", "Kulcha"],
+      priceRange: "₹₹",
+      deliveryTime: "25-35 min",
+      minimumOrder: 200,
+      offers: "Free dessert on orders above ₹400",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Sardar Jasbir Singh",
+      phone: "+91 9876543215",
+      email: "tandoor.express@email.com",
+      joinedDate: "2019-11-20",
+      totalOrders: "14k+",
+      monthlyRevenue: "₹9,10,000",
+      status: "active",
+      commission: "19%",
+      features: ["Dine-in", "Takeaway", "Delivery", "Live Tandoor"],
+      workingHours: "11:00 AM - 11:00 PM",
+      seatingCapacity: 90,
+      isVeg: false,
+      hasParking: true,
+      acceptsCards: true,
+      hasWifi: false,
+    },
+    {
+      id: 7,
+      name: "Sweet Dreams Bakery",
+      type: "Bakery",
+      cuisine: "Desserts",
+      rating: 4.9,
+      location: "Defence Colony, Delhi",
+      established: "2014",
+      specialties: ["Custom Cakes", "Pastries", "Cookies", "Bread"],
+      priceRange: "₹₹",
+      deliveryTime: "15-25 min",
+      minimumOrder: 100,
+      offers: "10% OFF on birthday cakes",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Ms. Ritu Malhotra",
+      phone: "+91 9876543216",
+      email: "sweetdreams.bakery@email.com",
+      joinedDate: "2020-09-12",
+      totalOrders: "11k+",
+      monthlyRevenue: "₹3,80,000",
+      status: "active",
+      commission: "12%",
+      features: ["Takeaway", "Delivery", "Custom Orders", "Fresh Daily"],
+      workingHours: "8:00 AM - 9:00 PM",
+      seatingCapacity: 20,
+      isVeg: true,
+      hasParking: false,
+      acceptsCards: true,
+      hasWifi: false,
+    },
+    {
+      id: 8,
+      name: "Dragon Palace",
+      type: "Restaurant",
+      cuisine: "Chinese",
+      rating: 4.5,
+      location: "Nehru Place, Delhi",
+      established: "2017",
+      specialties: ["Dim Sum", "Peking Duck", "Fried Rice", "Hot Pot"],
+      priceRange: "₹₹₹",
+      deliveryTime: "30-40 min",
+      minimumOrder: 300,
+      offers: "20% OFF on family combos",
+      image: "/placeholder.svg?height=300&width=400",
+      owner: "Chef Li Wei",
+      phone: "+91 9876543217",
+      email: "dragon.palace@email.com",
+      joinedDate: "2020-12-08",
+      totalOrders: "9k+",
+      monthlyRevenue: "₹6,40,000",
+      status: "active",
+      commission: "21%",
+      features: ["Dine-in", "Takeaway", "Delivery", "Authentic Chinese"],
+      workingHours: "12:00 PM - 10:30 PM",
+      seatingCapacity: 85,
+      isVeg: false,
+      hasParking: true,
+      acceptsCards: true,
+      hasWifi: true,
+    },
+  ]
+
+  const tieUpCategories = ["all", "restaurant", "café", "bakery"]
+  const cuisineFilters = [
+    "all",
+    "north indian",
+    "south indian",
+    "chinese",
+    "italian",
+    "continental",
+    "punjabi",
+    "healthy",
+    "desserts",
+  ]
+
+  const filteredTieUpPartners = tieUpPartners.filter((partner) => {
+    const typeMatch = activeTieUpFilter === "all" || partner.type.toLowerCase() === activeTieUpFilter
+    return typeMatch
+  })
+
   const storeCategories = ["all", "indian", "italian", "chinese", "american", "south indian", "desserts"]
 
   const filteredStores =
@@ -767,6 +1031,7 @@ export default function FoodDash() {
                 { name: "Menu", action: scrollToMenu },
                 { name: "Stores", action: () => setIsStoresOpen(true) },
                 { name: "Partners", action: () => setIsDeliveryPartnersOpen(true) },
+                { name: "Tie-ups", action: () => setIsTieUpPartnersOpen(true) },
                 { name: "About", href: "#about" },
                 { name: "Contact", href: "#contact" },
               ].map((item) => (
@@ -836,7 +1101,7 @@ export default function FoodDash() {
               <Button
                 variant="outline"
                 size="sm"
-                className="relative border-orange-200 hover:border-orange-300 hover:bg-orange-50"
+                className="relative border-orange-200 hover:border-orange-300 hover:bg-orange-50 bg-transparent"
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 Cart
@@ -863,6 +1128,7 @@ export default function FoodDash() {
                   { name: "Menu", action: scrollToMenu },
                   { name: "Stores", action: () => setIsStoresOpen(true) },
                   { name: "Partners", action: () => setIsDeliveryPartnersOpen(true) },
+                  { name: "Tie-ups", action: () => setIsTieUpPartnersOpen(true) },
                   { name: "About", href: "#about" },
                   { name: "Contact", href: "#contact" },
                 ].map((item) => (
@@ -925,7 +1191,7 @@ export default function FoodDash() {
                 variant="outline"
                 size="lg"
                 onClick={scrollToMenu}
-                className="text-xl px-10 py-6 rounded-2xl border-2 border-orange-300 hover:border-orange-400 hover:bg-orange-50 transform hover:scale-105 transition-all duration-300"
+                className="text-xl px-10 py-6 rounded-2xl border-2 border-orange-300 hover:border-orange-400 hover:bg-orange-50 transform hover:scale-105 transition-all duration-300 bg-transparent"
               >
                 <span className="mr-2">📋</span>
                 View Menu
@@ -1315,7 +1581,7 @@ export default function FoodDash() {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300"
+                    className="border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 bg-transparent"
                   >
                     Learn More
                   </Button>
@@ -2281,6 +2547,470 @@ export default function FoodDash() {
                 <p className="text-xs text-gray-600 text-center flex items-center justify-center">
                   <Shield className="w-4 h-4 mr-2" />
                   Your payment information is secure and encrypted. We never store your card details.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Tie-up Partners Modal */}
+      {isTieUpPartnersOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-7xl max-h-[90vh] overflow-y-auto shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h3 className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
+                    Restaurant & Café Partners
+                  </h3>
+                  <p className="text-gray-600 mt-2 text-lg">Our trusted restaurant and café partners</p>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <Button
+                    onClick={() => setIsPartnerApplicationOpen(true)}
+                    className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 px-6 py-3 rounded-xl shadow-lg"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Join as Partner
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setIsTieUpPartnersOpen(false)}
+                    className="w-12 h-12 p-0 hover:bg-gray-100 rounded-full"
+                  >
+                    <X className="w-6 h-6" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Partner Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                {[
+                  { number: "50+", label: "Partner Restaurants", icon: "🏪" },
+                  { number: "25+", label: "Partner Cafés", icon: "☕" },
+                  { number: "₹2.5Cr+", label: "Monthly Revenue", icon: "💰" },
+                  { number: "4.8★", label: "Average Rating", icon: "⭐" },
+                ].map((stat, index) => (
+                  <div
+                    key={index}
+                    className="text-center p-6 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                  >
+                    <div className="text-3xl mb-3">{stat.icon}</div>
+                    <div className="text-3xl font-bold text-purple-600 mb-2">{stat.number}</div>
+                    <div className="text-gray-600 font-medium">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Category Filter */}
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
+                {tieUpCategories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={activeTieUpFilter === category ? "default" : "outline"}
+                    onClick={() => setActiveTieUpFilter(category)}
+                    className={`capitalize px-6 py-3 rounded-full font-medium transform hover:scale-105 transition-all duration-200 ${
+                      activeTieUpFilter === category
+                        ? "bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white shadow-lg"
+                        : "border-purple-200 hover:border-purple-300 hover:bg-purple-50"
+                    }`}
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+
+              {/* Partners Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredTieUpPartners.map((partner) => (
+                  <Card
+                    key={partner.id}
+                    className="hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0 shadow-lg bg-white/90 backdrop-blur-sm overflow-hidden"
+                  >
+                    <div className="relative">
+                      <div className="h-48 bg-gradient-to-br from-purple-200 via-indigo-200 to-pink-200 flex items-center justify-center">
+                        <span className="text-6xl">
+                          {partner.type === "Restaurant" ? "🍽️" : partner.type === "Café" ? "☕" : "🧁"}
+                        </span>
+                      </div>
+                      <div className="absolute top-4 right-4 flex flex-col gap-2">
+                        <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg">
+                          <Star className="w-3 h-3 mr-1" />
+                          {partner.rating}
+                        </Badge>
+                        <Badge className="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg text-xs">
+                          {partner.status.toUpperCase()}
+                        </Badge>
+                      </div>
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-xs shadow-lg">
+                          {partner.type}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h4 className="text-xl font-bold text-gray-800">{partner.name}</h4>
+                          <p className="text-sm text-gray-500 flex items-center mt-1">
+                            <MapPin className="w-3 h-3 mr-1" />
+                            {partner.location}
+                          </p>
+                        </div>
+                        <Badge variant="outline" className="text-xs border-purple-200 text-purple-600">
+                          {partner.cuisine}
+                        </Badge>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="text-center p-3 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
+                          <div className="text-lg font-bold text-green-600">{partner.totalOrders}</div>
+                          <div className="text-xs text-gray-600">Orders</div>
+                        </div>
+                        <div className="text-center p-3 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+                          <div className="text-lg font-bold text-blue-600">{partner.monthlyRevenue}</div>
+                          <div className="text-xs text-gray-600">Revenue</div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 mb-4">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Owner:</span>
+                          <span className="font-medium">{partner.owner}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Established:</span>
+                          <span className="font-medium">{partner.established}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Delivery Time:</span>
+                          <span className="font-medium text-purple-600">{partner.deliveryTime}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-600">Min Order:</span>
+                          <span className="font-medium">₹{partner.minimumOrder}</span>
+                        </div>
+                      </div>
+
+                      <div className="mb-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">Specialties:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {partner.specialties.slice(0, 3).map((specialty, index) => (
+                            <Badge key={index} variant="outline" className="text-xs border-gray-200">
+                              {specialty}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mb-4 p-3 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-200">
+                        <p className="text-sm font-medium text-purple-700 mb-1 flex items-center">
+                          <Award className="w-4 h-4 mr-1" />
+                          Current Offer
+                        </p>
+                        <p className="text-sm text-purple-600">{partner.offers}</p>
+                      </div>
+
+                      <div className="mb-4">
+                        <p className="text-sm font-medium text-gray-700 mb-2">Features:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {partner.features.slice(0, 3).map((feature, index) => (
+                            <Badge key={index} variant="outline" className="text-xs border-blue-200 text-blue-600">
+                              {feature}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div className="flex items-center space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < Math.floor(partner.rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                              }`}
+                            />
+                          ))}
+                          <span className="text-sm text-gray-600 ml-2">({partner.rating})</span>
+                        </div>
+                        <div className="text-sm text-gray-600">{partner.priceRange}</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Partner Benefits Section */}
+              <div className="mt-16">
+                <h4 className="text-3xl font-bold text-center text-gray-800 mb-12">
+                  Why Partner With{" "}
+                  <span className="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
+                    FoodDash?
+                  </span>
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                    {
+                      icon: "📈",
+                      title: "Increase Revenue",
+                      description: "Boost your sales by 40% with our extensive customer base and marketing support",
+                      color: "from-green-500 to-emerald-500",
+                    },
+                    {
+                      icon: "🎯",
+                      title: "Targeted Marketing",
+                      description: "Reach the right customers with our AI-powered recommendation system",
+                      color: "from-blue-500 to-indigo-500",
+                    },
+                    {
+                      icon: "📱",
+                      title: "Easy Management",
+                      description: "Manage orders, menu, and analytics through our user-friendly partner dashboard",
+                      color: "from-purple-500 to-pink-500",
+                    },
+                    {
+                      icon: "🚀",
+                      title: "Quick Onboarding",
+                      description: "Get started in just 24 hours with our streamlined registration process",
+                      color: "from-orange-500 to-red-500",
+                    },
+                    {
+                      icon: "💰",
+                      title: "Competitive Rates",
+                      description: "Enjoy industry-best commission rates and transparent pricing structure",
+                      color: "from-yellow-500 to-orange-500",
+                    },
+                    {
+                      icon: "🛡️",
+                      title: "Reliable Support",
+                      description: "24/7 dedicated support team to help you succeed and grow your business",
+                      color: "from-teal-500 to-cyan-500",
+                    },
+                  ].map((benefit, index) => (
+                    <Card
+                      key={index}
+                      className="text-center p-6 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-0 shadow-lg bg-white/90 backdrop-blur-sm"
+                    >
+                      <div className="text-4xl mb-4">{benefit.icon}</div>
+                      <h5 className="text-xl font-bold text-gray-800 mb-3">{benefit.title}</h5>
+                      <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Partner Application Modal */}
+      {isPartnerApplicationOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white text-2xl">🤝</span>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-800">Join FoodDash Partners</h3>
+                <p className="text-gray-600 mt-2">Partner with us and grow your business</p>
+              </div>
+
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Restaurant/Café Name *</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="Enter business name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Business Type *</label>
+                    <select
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                    >
+                      <option value="">Select type</option>
+                      <option value="restaurant">Restaurant</option>
+                      <option value="cafe">Café</option>
+                      <option value="bakery">Bakery</option>
+                      <option value="cloud-kitchen">Cloud Kitchen</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Owner Name *</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="Enter owner name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Phone Number *</label>
+                    <input
+                      type="tel"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Email Address *</label>
+                  <input
+                    type="email"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                    placeholder="Enter email address"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Complete Address *</label>
+                  <textarea
+                    required
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 resize-none"
+                    placeholder="Enter complete address with pincode"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Cuisine Type *</label>
+                    <select
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                    >
+                      <option value="">Select cuisine</option>
+                      <option value="north-indian">North Indian</option>
+                      <option value="south-indian">South Indian</option>
+                      <option value="chinese">Chinese</option>
+                      <option value="italian">Italian</option>
+                      <option value="continental">Continental</option>
+                      <option value="punjabi">Punjabi</option>
+                      <option value="multi-cuisine">Multi-Cuisine</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Established Year</label>
+                    <input
+                      type="number"
+                      min="1900"
+                      max="2024"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="e.g., 2020"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Seating Capacity</label>
+                    <input
+                      type="number"
+                      min="0"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="Number of seats"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Average Order Value</label>
+                    <input
+                      type="number"
+                      min="0"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="₹ per order"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Business Features</label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {["Dine-in", "Takeaway", "Delivery", "Catering", "Parking", "WiFi", "AC", "Live Music"].map(
+                      (feature) => (
+                        <label key={feature} className="flex items-center space-x-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="rounded border-gray-300 text-green-500 focus:ring-green-500"
+                          />
+                          <span className="text-sm text-gray-700">{feature}</span>
+                        </label>
+                      ),
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Tell us about your specialties and what makes you unique
+                  </label>
+                  <textarea
+                    rows={4}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 resize-none"
+                    placeholder="Describe your signature dishes, unique selling points, awards, etc."
+                  />
+                </div>
+
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-200">
+                  <h4 className="font-semibold text-green-800 mb-3 flex items-center">
+                    <Award className="w-5 h-5 mr-2" />
+                    Partnership Benefits
+                  </h4>
+                  <ul className="text-sm text-green-700 space-y-2">
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      Increase revenue by up to 40%
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      Access to 10k+ active customers
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      Free marketing and promotional support
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      24/7 dedicated partner support
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="flex gap-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsPartnerApplicationOpen(false)}
+                    className="flex-1 py-4 rounded-xl border-gray-300 hover:border-gray-400"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 py-4 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300"
+                  >
+                    Submit Application
+                  </Button>
+                </div>
+              </form>
+
+              <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
+                <p className="text-sm text-blue-700 text-center flex items-center justify-center">
+                  <Phone className="w-4 h-4 mr-2" />
+                  Need help? Call us at +91 8877002297 or email partners@fooddash.com
                 </p>
               </div>
             </CardContent>
